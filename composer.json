@@ -1,0 +1,31 @@
+{
+    "name": "zf-commons/zfc-twig",
+    "description": "Zend Framework 2 Module that provides a Twig rendering strategy",
+    "type": "library",
+    "keywords": [
+        "twig",
+        "module",
+        "zf2"
+    ],
+    "homepage": "http://www.github.com/ZF-Commons/ZfcTwig/",
+    "authors": [
+        {
+            "name": "Kyle Spraggs",
+            "email": "theman@spiffyjr.me",
+            "homepage": "http://www.spiffyjr.me/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "twig/twig": "1.8.*"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "ZfcTwig": "src/"
+        },
+        "classmap": [
+            "./"
+        ]
+    }
+}

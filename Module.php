@@ -1,6 +1,6 @@
 <?php
 
-namespace SpiffyTwig;
+namespace ZfcTwig;
 
 class Module
 {
@@ -20,9 +20,9 @@ class Module
         return array(
             'aliases' => array(),
             'factories' => array(
-                'Twig'             => 'SpiffyTwig\Service\TwigFactory',
-                'ViewTwigStrategy' => 'SpiffyTwig\Service\ViewTwigStrategyFactory',
-                'ViewTwigRenderer' => 'SpiffyTwig\Service\ViewTwigRendererFactory'
+                'Twig'             => 'ZfcTwig\Service\TwigFactory',
+                'ViewTwigStrategy' => 'ZfcTwig\Service\ViewTwigStrategyFactory',
+                'ViewTwigRenderer' => 'ZfcTwig\Service\ViewTwigRendererFactory'
             )
         );
     }

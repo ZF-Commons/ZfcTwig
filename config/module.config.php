@@ -1,6 +1,6 @@
 <?php
 return array(
-    'spiffytwig' => array(
+    'ZfcTwig' => array(
         'cache' => 'data/cache'
     )
 );

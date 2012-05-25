@@ -1,8 +1,8 @@
 <?php
 
-namespace SpiffyTwig\Service;
+namespace ZfcTwig\Service;
 
-use SpiffyTwig\View\Renderer\TwigRenderer;
+use ZfcTwig\View\Renderer\TwigRenderer;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 

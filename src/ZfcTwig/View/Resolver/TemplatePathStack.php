@@ -1,6 +1,6 @@
 <?php
 
-namespace SpiffyTwig\View\Resolver;
+namespace ZfcTwig\View\Resolver;
 
 use Zend\View\Resolver\TemplatePathStack as BaseTemplatePathStack;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace SpiffyTwig\View\Strategy;
+namespace ZfcTwig\View\Strategy;
 
-use SpiffyTwig\View\Renderer\TwigRenderer;
+use ZfcTwig\View\Renderer\TwigRenderer;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\View\ViewEvent;
@@ -15,14 +15,14 @@ class TwigStrategy implements ListenerAggregateInterface
     protected $listeners = array();
 
     /**
-     * @var \SpiffyTwig\View\Renderer\TwigRenderer
+     * @var \ZfcTwig\View\Renderer\TwigRenderer
      */
     protected $renderer;
 
     /**
      * Constructor
      *
-     * @param  \SpiffyTwig\View\Renderer\TwigRenderer $renderer
+     * @param  \ZfcTwig\View\Renderer\TwigRenderer $renderer
      * @return void
      */
     public function __construct(TwigRenderer $renderer)

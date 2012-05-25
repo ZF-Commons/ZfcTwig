@@ -1,15 +1,17 @@
 <?php
 
-namespace SpiffyTwig\View\Renderer;
+namespace ZfcTwig\View\Renderer;
 
-use SpiffyTwig\View\Resolver\TemplatePathStack;
-use SpiffyTwig\View\Exception;
+use ArrayAccess;
+use ZfcTwig\View\Resolver\TemplatePathStack;
+use ZfcTwig\View\Exception;
 use Twig_Environment;
 use Zend\Loader\Pluggable;
 use Zend\View\Model\ModelInterface;
 use Zend\View\Renderer\RendererInterface;
 use Zend\View\Renderer\TreeRendererInterface;
 use Zend\View\Resolver\ResolverInterface;
+use Zend\View\Variables;
 
 class TwigRenderer implements RendererInterface, Pluggable, TreeRendererInterface
 {
@@ -19,9 +21,14 @@ class TwigRenderer implements RendererInterface, Pluggable, TreeRendererInterfac
     protected $engine;
 
     /**
-     * @var \SpiffyTwig\View\Resolver\TemplatePathStack
+     * @var \ZfcTwig\View\Resolver\TemplatePathStack
      */
     protected $resolver;
+
+    /**
+     * @var ArrayAccess|array
+     */
+    protected $vars;
 
     /**
      * Get plugin broker instance
@@ -60,6 +67,55 @@ class TwigRenderer implements RendererInterface, Pluggable, TreeRendererInterfac
     {
         $this->engine = $engine;
         return $this;
+    }
+
+    /**
+     * Set variable storage
+     *
+     * Expects either an array, or an object implementing ArrayAccess.
+     *
+     * @param  array|ArrayAccess $variables
+     * @return PhpRenderer
+     * @throws Exception\InvalidArgumentException
+     */
+    public function setVars($variables)
+    {
+        if (!is_array($variables) && !$variables instanceof ArrayAccess) {
+            throw new Exception\InvalidArgumentException(sprintf(
+                'Expected array or ArrayAccess object; received "%s"',
+                (is_object($variables) ? get_class($variables) : gettype($variables))
+            ));
+        }
+
+        // Enforce a Variables container
+        if (!$variables instanceof Variables) {
+            $variablesAsArray = array();
+            foreach ($variables as $key => $value) {
+                $variablesAsArray[$key] = $value;
+            }
+            $variables = new Variables($variablesAsArray);
+        }
+
+        $this->vars = $variables;
+        return $this;
+    }
+
+    /**
+     * Get a single variable, or all variables
+     *
+     * @param  mixed $key
+     * @return mixed
+     */
+    public function vars($key = null)
+    {
+        if (null === $this->vars) {
+            $this->setVars(new Variables());
+        }
+
+        if (null === $key) {
+            return $this->vars;
+        }
+        return $this->vars[$key];
     }
 
     /**
@@ -119,6 +175,11 @@ class TwigRenderer implements RendererInterface, Pluggable, TreeRendererInterfac
         if ($nameOrModel instanceof ModelInterface) {
             $model       = $nameOrModel;
             $nameOrModel = $model->getTemplate();
+
+            // TODO: talk with Matthew about working around this.
+            // This line disables the layout from being rendered.
+            $model->setTerminal(true);
+
             if (empty($nameOrModel)) {
                 throw new Exception\DomainException(sprintf(
                     '%s: received View Model argument, but template is empty',
@@ -143,11 +204,11 @@ class TwigRenderer implements RendererInterface, Pluggable, TreeRendererInterfac
             unset($model);
         }
 
-        if (is_object($values)) {
-            $values = $values->getArrayCopy();
+        if (null !== $values) {
+            $this->setVars($values);
         }
 
-        return $this->getEngine()->render($nameOrModel . '.twig', $values);
+        return $this->getEngine()->render($nameOrModel . '.twig', $this->vars()->getArrayCopy());
     }
 
     /**

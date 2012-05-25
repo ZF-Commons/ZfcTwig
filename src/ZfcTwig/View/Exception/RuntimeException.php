@@ -1,6 +1,6 @@
 <?php
 
-namespace SpiffyTwig\View\Exception;
+namespace ZfcTwig\View\Exception;
 
 class RuntimeException
     extends \RuntimeException
