@@ -21,6 +21,9 @@ class Environment extends Twig_Environment
         return $this->broker;
     }
 
+    /**
+     * @param $name string
+     */
     public function plugin($name)
     {
         return $this->broker()->load($name);
