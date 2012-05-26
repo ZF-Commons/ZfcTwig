@@ -14,7 +14,6 @@ ZfcTwig has sane defaults out of the box but offers optional configuration via t
 
     `config` - passed directly to the Twig_Environment class.
     `suffix` - the suffix to use for Twig templates, default is .twig.
-    `paths`  - passed to the Twig_Loader_Filesystem class for loading Twig files.
 
 Examples
 --------
