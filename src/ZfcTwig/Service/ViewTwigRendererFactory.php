@@ -12,10 +12,10 @@ class ViewTwigRendererFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->get('Configuration');
+        $config   = $serviceLocator->get('Configuration');
 
-        $resolver = new TwigResolver();
-        $resolver->setSuffix($config['zfctwig']['suffix']);
+        $resolver = $serviceLocator->get('ViewTemplatePathStack');
+        $resolver->setDefaultSuffix($config['zfctwig']['suffix']);
 
         $renderer = new TwigRenderer();
         $renderer->setEngine($serviceLocator->get('TwigEnvironment'));

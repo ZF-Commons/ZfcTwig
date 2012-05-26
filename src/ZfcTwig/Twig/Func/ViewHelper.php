@@ -16,19 +16,6 @@ class ViewHelper extends Twig_Function
         parent::__construct(array('is_safe' => array('html')));
     }
 
-    public function getSafe(Twig_Node $functionArgs)
-    {
-        if (isset($this->options['is_safe'])) {
-            return $this->options['is_safe'];
-        }
-
-        if (isset($this->options['is_safe_callback'])) {
-            return call_user_func($this->options['is_safe_callback'], $functionArgs);
-        }
-
-        return array();
-    }
-
     /**
      * Compiles a function.
      *

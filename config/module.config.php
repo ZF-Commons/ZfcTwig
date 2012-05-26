@@ -5,7 +5,6 @@ return array(
             //'cache' => 'data/cache'
         ),
         'suffix' => '.twig',
-        'paths'  => 'module/Application/view'
     ),
     'view_manager' => array(
         'strategies'   => array('ViewTwigStrategy'),

@@ -12,6 +12,7 @@ class ViewTwigStrategyFactory implements FactoryInterface
     {
         $twigRenderer = $serviceLocator->get('ViewTwigRenderer');
         $twigStrategy = new TwigStrategy($twigRenderer);
+
         return $twigStrategy;
     }
 }

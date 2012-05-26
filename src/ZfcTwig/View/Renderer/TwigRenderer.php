@@ -35,7 +35,7 @@ class TwigRenderer extends PhpRenderer
     /**
      * Processes a view script and returns the output.
      *
-     * @param  string|Model $name The script/resource process, or a view model
+     * @param  string|ModelInterface $name The script/resource process, or a view model
      * @param  null|array|\ArrayAccess Values to use during rendering
      * @return string The script output.
      */
