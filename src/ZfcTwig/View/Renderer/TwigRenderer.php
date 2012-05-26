@@ -59,7 +59,10 @@ class TwigRenderer extends PhpRenderer
             $this->setVars($values);
         }
 
-        $file = $this->resolver()->resolve($nameOrModel);
+        if (!($file = $this->resolver()->resolve($nameOrModel))) {
+            throw new \Twig_Error_Loader(sprintf('Unable to find template "%s".', $nameOrModel));
+        }
+
         $vars = $this->vars()->getArrayCopy();
         $twig = $this->getEngine();
 

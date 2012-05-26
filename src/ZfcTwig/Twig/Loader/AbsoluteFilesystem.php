@@ -19,6 +19,10 @@ class AbsoluteFilesystem implements Twig_LoaderInterface
     protected $fallbackResolver;
 
     /**
+     * The fallback renderer is used to resolve files that were unable to be found
+     * using an absolute path, specifically, for instances such as the {% extends %}
+     * method in Twig.
+     *
      * @param \Zend\View\Resolver\ResolverInterface $fallbackResolver
      * @return AbsoluteFilesystem
      */
@@ -86,8 +90,8 @@ class AbsoluteFilesystem implements Twig_LoaderInterface
 
         if (is_file($name)) {
             return $this->cache[$name] = $name;
-        } else if (($name = $this->fallbackResolver->resolve($name))) {
-            return $this->cache[$name] = $name;
+        } else if (($fallbackName = $this->fallbackResolver->resolve($name))) {
+            return $this->cache[$fallbackName] = $fallbackName;
         }
 
         throw new Twig_Error_Loader(sprintf('Unable to find template "%s".', $name));
