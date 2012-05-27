@@ -4,6 +4,7 @@ namespace ZfcTwig\Service;
 
 use ZfcTwig\Twig\Loader\AbsoluteFilesystem;
 use ZfcTwig\Twig\Environment;
+use ZfcTwig\Twig\Extension;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -18,6 +19,7 @@ class TwigEnvironmentFactory implements FactoryInterface
         $loader->setFallbackResolver($serviceLocator->get('ViewTemplatePathStack'));
 
         $twig = new Environment($loader, $config['zfctwig']['config']);
+        $twig->addExtension(new Extension($twig));
         $twig->setBroker($broker);
 
         return $twig;

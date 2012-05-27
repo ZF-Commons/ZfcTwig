@@ -23,6 +23,7 @@ class ViewHelper extends Twig_Function
      */
     function compile()
     {
-        return sprintf("\$this->env->plugin('%s')->__invoke", $this->name);
+        $name = preg_replace('#[^a-z0-9]+#i', '', $this->name);
+        return sprintf("\$this->env->plugin('%s')->__invoke", $name);
     }
 }
