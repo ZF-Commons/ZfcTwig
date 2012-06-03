@@ -1,13 +1,13 @@
 <?php
 
-namespace ZfcTwig\View\Strategy;
+namespace ZfcTwig\View;
 
-use ZfcTwig\View\Renderer\TwigRenderer;
+use ZfcTwig\View\Renderer;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\View\ViewEvent;
 
-class TwigStrategy implements ListenerAggregateInterface
+class Strategy implements ListenerAggregateInterface
 {
     /**
      * @var \Zend\Stdlib\CallbackHandler[]
@@ -15,22 +15,22 @@ class TwigStrategy implements ListenerAggregateInterface
     protected $listeners = array();
 
     /**
-     * @var \ZfcTwig\View\Renderer\TwigRenderer
+     * @var \ZfcTwig\View\Renderer\Renderer
      */
     protected $renderer;
 
     /**
      * Constructor
      *
-     * @param  \ZfcTwig\View\Renderer\TwigRenderer $renderer
+     * @param  \ZfcTwig\View\Renderer\Renderer $renderer
      * @return void
      */
-    public function __construct(TwigRenderer $renderer)
+    public function __construct(Renderer $renderer)
     {
         $this->renderer = $renderer;
     }
 
-    public function attach(EventManagerInterface $events, $priority = 10)
+    public function attach(EventManagerInterface $events, $priority = 100)
     {
         $this->listeners[] = $events->attach(ViewEvent::EVENT_RENDERER, array($this, 'selectRenderer'), $priority);
         $this->listeners[] = $events->attach(ViewEvent::EVENT_RESPONSE, array($this, 'injectResponse'), $priority);

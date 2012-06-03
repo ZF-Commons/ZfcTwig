@@ -2,12 +2,15 @@
 return array(
     'zfctwig' => array(
         'config' => array(
-            //'cache' => 'data/cache'
+            'cache' => 'data/cache'
         ),
         'suffix' => '.twig',
+        'extensions' => array(
+
+        )
     ),
     'view_manager' => array(
-        'strategies'   => array('ViewTwigStrategy'),
+        'strategies'   => array('TwigViewStrategy'),
         'template_map' => array(
             'index/index' => __DIR__ . '/../view/index/index.twig',
             'error/404'   => __DIR__ . '/../view/error/404.twig',

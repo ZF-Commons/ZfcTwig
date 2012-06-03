@@ -1,13 +1,13 @@
 <?php
 
-namespace ZfcTwig\View\Renderer;
+namespace ZfcTwig\View;
 
-use ZfcTwig\View\Exception;
 use Twig_Environment;
+use Zend\View\Exception;
 use Zend\View\Model\ModelInterface;
 use Zend\View\Renderer\PhpRenderer;
 
-class TwigRenderer extends PhpRenderer
+class Renderer extends PhpRenderer
 {
     /**
      * @var \Twig_Environment
@@ -16,7 +16,7 @@ class TwigRenderer extends PhpRenderer
 
     /**
      * @param \Twig_Environment $engine
-     * @return TwigRenderer
+     * @return Renderer
      */
     public function setEngine(Twig_Environment $engine)
     {
