@@ -2,9 +2,13 @@
 
 namespace ZfcTwig\Twig;
 
-use Twig_Extension;
-use ZfcTwig\Twig\TokenParser\ViewHelperParser;
-use ZfcTwig\Twig\TokenParser\ViewHelperBroker;
+use Twig_Extension,
+    ZfcTwig\Twig\TokenParser\ViewHelperParser,
+    ZfcTwig\Twig\TokenParser\ViewHelperBroker,
+    ZfcTwig\Twig\TokenParser\RenderParser,
+    ZfcTwig\Twig\TokenParser\TriggerParser,
+    ZfcTwig\Twig\Helper\Render as RenderHelper,
+    ZfcTwig\Twig\Helper\Trigger as TriggerHelper;
 
 class Extension extends Twig_Extension
 {
@@ -13,16 +17,35 @@ class Extension extends Twig_Extension
      */
     protected $env;
 
+    protected $helpers = array();
+
     public function __construct(Environment $env)
     {
         $this->env = $env;
+        $this->helpers = array(
+            'render' => new RenderHelper(),
+            'trigger' => new TriggerHelper(),
+        );
     }
 
     public function getTokenParsers()
     {
         $broker = new ViewHelperBroker($this->env, new ViewHelperParser);
 
-        return array($broker);
+        return array(
+            $broker,
+            new RenderParser(),
+            new TriggerParser(),
+        );
+    }
+
+    public function getHelper($name)
+    {
+        if (isset($this->helpers[$name])){
+            return $this->helpers[$name];
+        }
+
+        throw new \Exception('Invalid ZfcTwig extension helper requested: "'.$name.'".');
     }
 
     /**

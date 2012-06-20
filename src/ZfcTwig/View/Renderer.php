@@ -52,7 +52,18 @@ class Renderer extends PhpRenderer
                 ));
             }
 
+            $options = $model->getOptions();
+            foreach ($options as $setting => $value) {
+                $method = 'set' . $setting;
+                if (method_exists($this, $method)) {
+                    $this->$method($value);
+                }
+                unset($method, $setting, $value);
+            }
+            unset($options);
+
             $values = $model->getVariables();
+            unset($model);
         }
 
         if (null !== $values) {

@@ -12,6 +12,16 @@ class Environment extends Twig_Environment
      * @var \Zend\View\HelperPluginManager
      */
     protected $manager;
+    protected $php_fallback;
+
+    function __construct(\Twig_LoaderInterface $loader = null, $options = array())
+    {
+        parent::__construct($loader, $options);
+        $options = array_merge(array(
+            'allow_php_fallback' => false
+        ), $options);
+        $this->php_fallback = $options['allow_php_fallback'];
+    }
 
     /**
      * @return \Zend\View\HelperPluginManager
@@ -45,9 +55,27 @@ class Environment extends Twig_Environment
             return $function;
         }
 
-        $function = new ViewHelper($name);
+        try{
+            if ($this->plugin($name)){
+                $function = new ViewHelper($name);
 
-        $this->addFunction($name, $function);
-        return $function;
+                $this->addFunction($name, $function);
+                return $function;
+            }
+        }catch(\Exception $exception){
+
+        }
+
+        if ($this->php_fallback){
+            $constructs = array('isset', 'empty');
+            $_name = $name;
+            if (function_exists($_name) || in_array($_name, $constructs)) {
+                $function = new \Twig_Function_Function($_name);
+                $this->addFunction($name, $function);
+                return $function;
+            }
+        }
+
+        return false;
     }
 }
