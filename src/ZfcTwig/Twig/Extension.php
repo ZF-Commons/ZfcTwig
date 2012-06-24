@@ -19,12 +19,12 @@ class Extension extends Twig_Extension
 
     protected $helpers = array();
 
-    public function __construct(Environment $env)
+    public function __construct(Environment $env, $serviceLocator = null)
     {
         $this->env = $env;
         $this->helpers = array(
-            'render' => new RenderHelper(),
-            'trigger' => new TriggerHelper(),
+            'render' => new RenderHelper($serviceLocator),
+            'trigger' => new TriggerHelper($serviceLocator),
         );
     }
 

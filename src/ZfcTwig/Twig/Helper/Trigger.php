@@ -4,7 +4,7 @@ use Zend\Mvc\InjectApplicationEventInterface,
     Zend\EventManager\EventManager,
     Zend\EventManager\EventManagerInterface,
     Zend\EventManager\Event,
-    ZfcTwig\Module;
+    Zend\ServiceManager\ServiceLocatorInterface;
 
 class Trigger
 {
@@ -12,6 +12,12 @@ class Trigger
      * @var \Zend\EventManager\EventManager | null
      */
     protected $events = null;
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
+    }
 
     /**
      * Set the event manager instance used by this context
@@ -37,7 +43,7 @@ class Trigger
                 get_called_class(),
                 'extend'
             )));
-            $sharedManager = Module::getServiceManager()->get('Application')->events()->getSharedManager();
+            $sharedManager = $this->serviceLocator->get('Application')->events()->getSharedManager();
             $this->events->setSharedManager($sharedManager);
         }
         return $this->events;

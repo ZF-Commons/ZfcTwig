@@ -21,7 +21,7 @@ class EnvironmentFactory implements FactoryInterface
         $loader->setFallbackResolver($serviceLocator->get('ViewTemplatePathStack'));
 
         $twig = new Environment($loader, $config['config']);
-        $twig->addExtension(new Extension($twig));
+        $twig->addExtension(new Extension($twig, $serviceLocator));
         $twig->setManager($manager);
 
         foreach($config['extensions'] as $ext) {

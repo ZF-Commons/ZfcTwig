@@ -8,7 +8,7 @@ use Zend\Http\Response,
     Zend\EventManager\EventManager,
     Zend\EventManager\EventManagerInterface,
     Zend\EventManager\Event,
-    ZfcTwig\Module;
+    Zend\ServiceManager\ServiceLocatorInterface;
 
 class Render
 {
@@ -16,6 +16,12 @@ class Render
      * @var \Zend\EventManager\EventManager | null
      */
     protected $events = null;
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
+    }
 
     /**
      * Set the event manager instance used by this context
@@ -54,7 +60,7 @@ class Render
      */
     public function __invoke($expr, $attributes, $options)
     {
-        $serviceManager = Module::getServiceManager();
+        $serviceManager = $this->serviceLocator;
         $application = $serviceManager->get('Application');
         //parse the name of the controller, action and template directory that should be used
         $params = explode('/', $expr);
