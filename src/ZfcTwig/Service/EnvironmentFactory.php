@@ -17,8 +17,9 @@ class EnvironmentFactory implements FactoryInterface
         $config = $config['zfctwig'];
         $manager = $serviceLocator->get('ViewHelperManager');
 
-        $loader = new AbsoluteFilesystem($config['paths']);
-        $loader->setFallbackResolver($serviceLocator->get('ViewTemplatePathStack'));
+        $loader = new AbsoluteFilesystem();
+        $resolver = $serviceLocator->get('ViewResolver'); 
+        $loader->setFallbackResolver($resolver);
 
         $twig = new Environment($loader, $config['config']);
         $twig->addExtension(new Extension($twig, $serviceLocator));
