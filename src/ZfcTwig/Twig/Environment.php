@@ -4,21 +4,21 @@ namespace ZfcTwig\Twig;
 
 use Twig_Environment;
 use ZfcTwig\Twig\Func\ViewHelper;
-use Zend\View\HelperBroker;
+use Zend\View\HelperPluginManager;
 
 class Environment extends Twig_Environment
 {
     /**
-     * @var \Zend\View\HelperBroker
+     * @var \Zend\View\HelperPluginManager
      */
-    protected $broker;
+    protected $manager;
 
     /**
-     * @return \Zend\View\HelperBroker
+     * @return \Zend\View\HelperPluginManager
      */
-    public function broker()
+    public function manager()
     {
-        return $this->broker;
+        return $this->manager;
     }
 
     /**
@@ -26,16 +26,16 @@ class Environment extends Twig_Environment
      */
     public function plugin($name)
     {
-        return $this->broker()->load($name);
+        return $this->manager()->get($name);
     }
 
     /**
-     * @param \Zend\View\HelperBroker $broker
+     * @param \Zend\View\HelperPluginManager $manager
      * @return Environment
      */
-    public function setBroker(HelperBroker $broker)
+    public function setManager(HelperPluginManager $manager)
     {
-        $this->broker = $broker;
+        $this->manager = $manager;
         return $this;
     }
 
