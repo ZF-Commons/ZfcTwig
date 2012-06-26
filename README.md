@@ -32,22 +32,27 @@ This allows you to define the template path stacks and maps within the view mana
 Documentation
 -------------
 Any command from the original Twig library should work and also added support for Zend View helpers as functions and PHP functions as a fallback.
+
+To use Zend View helpers you just need to invoke them as a function:
+
+    {{ headTitle() }}
+
+In case you just want to execute a view helper without rendering it you can use the twig `do` tag:
+
+    {% do headTitle('My awesome rendered title') %}
+
 Apart from that the module adds two extension tags:
     
 1. A tag for rendering a controller action:
 
-    ```
-    {% render "core-index/index" with {'param1':1} %}
-    ```
+    ```{% render "core-index/index" with {'param1':1} %}```
     
     The above code will call the `indexAction` from the `core-index` controller as defined in the ControllerLoader service.
     Optionally you can also specify different parameters to send to the processed action which can later be retrieved from the matched route.
-    
+
 2. A tag for triggering an event on the renderer that is similar to the above syntax:
 
-    ```
-    {% trigger "myRendererEvent" on myObject with {'param1':1} %}
-    ```
+    ```{% trigger "myRendererEvent" on myObject with {'param1':1} %}```
     
     Both the target object and parameters are optional. The result of each listener is converted to string and rendered intead of the definition.
     
