@@ -14,8 +14,9 @@ class ViewRendererFactory implements FactoryInterface
         $config = $serviceLocator->get('Configuration');
         $config = $config['zfctwig'];
 
-        $resolver = $serviceLocator->get('ViewTemplatePathStack');
-        $resolver->setDefaultSuffix($config['suffix']);
+        $pathResolver = $serviceLocator->get('ViewTemplatePathStack');
+        $pathResolver->setDefaultSuffix($config['suffix']);
+        $resolver = $serviceLocator->get('ViewResolver');
 
         $renderer = new Renderer();
         $renderer->setEngine($serviceLocator->get('TwigEnvironment'));
