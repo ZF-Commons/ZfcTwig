@@ -12,9 +12,45 @@ Configuration
 -------------
 ZfcTwig has sane defaults out of the box but offers optional configuration via the `zfctwig` configuration key.
 
-    `config` - passed directly to the Twig_Environment class.
+    `config` - passed directly to the Twig_Environment class. 
+             - Added `allow_php_fallback` to allow fallback to php functions if the called function was not found. Active by default.
     `suffix` - the suffix to use for Twig templates, default is .twig.
+    
+ZfcTwig integrates with the View Manager service and uses the same resolvers defined within that service. 
+This allows you to define the template path stacks and maps within the view manager without having to set them again when installing the module:
 
+    'view_manager' => array(
+        'template_path_stack'   => array(
+            'application'              => __DIR__ . '/../views',
+        ),
+        'template_map' => array(
+            'layouts/layout'    => __DIR__ . '/../views/layouts/layout.twig',
+            'index/index'       => __DIR__ . '/../views/application/index/index.twig',
+        ),
+    ), 
+
+Documentation
+-------------
+Any command from the original Twig library should work and also added support for Zend View helpers as functions and PHP functions as a fallback.
+Apart from that the module adds two extension tags:
+    
+1. A tag for rendering a controller action:
+
+    ```
+    {% render "core-index/index" with {'param1':1} %}
+    ```
+    
+    The above code will call the `indexAction` from the `core-index` controller as defined in the ControllerLoader service.
+    Optionally you can also specify different parameters to send to the processed action which can later be retrieved from the matched route.
+    
+2. A tag for triggering an event on the renderer that is similar to the above syntax:
+
+    ```
+    {% trigger "myRendererEvent" on myObject with {'param1':1} %}
+    ```
+    
+    Both the target object and parameters are optional. The result of each listener is converted to string and rendered intead of the definition.
+    
 Examples
 --------
 Example .twig files for the skeleton application can be found in the
