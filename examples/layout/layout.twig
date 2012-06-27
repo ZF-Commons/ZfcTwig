@@ -1,3 +1,4 @@
+{{ doctype() }}
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -12,9 +13,9 @@
     {% endblock %}
 
     {% block link %}
-    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="/css/style.css" rel="stylesheet" type="text/css">
-    <link href="/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ basePath('/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ basePath('/css/style.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ basePath('/css/bootstrap-responsive.min.css') }}" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" href="/images/favicon.ico">
     {{ headLink() }}
     {% endblock %}
@@ -22,9 +23,8 @@
     {% block headscript %}
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-    <script src="/js/html5.js"></script>
+    <script src="{{ basePath('/js/html5.js') }}"></script>
     <![endif]-->
-
     {{ headScript() }}
     {% endblock %}
 </head>
