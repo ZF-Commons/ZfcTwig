@@ -43,7 +43,7 @@ class Trigger
                 get_called_class(),
                 'extend'
             )));
-            $sharedManager = $this->serviceLocator->get('Application')->events()->getSharedManager();
+            $sharedManager = $this->serviceLocator->get('SharedEventManager');
             $this->events->setSharedManager($sharedManager);
         }
         return $this->events;
