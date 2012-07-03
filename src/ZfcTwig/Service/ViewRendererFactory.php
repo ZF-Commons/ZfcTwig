@@ -19,7 +19,11 @@ class ViewRendererFactory implements FactoryInterface
         $resolver = $serviceLocator->get('ViewResolver');
 
         $renderer = new Renderer();
-        $renderer->setEngine($serviceLocator->get('TwigEnvironment'));
+
+        $engine = $serviceLocator->get('TwigEnvironment');
+        $engine->manager()->setRenderer($renderer);
+
+        $renderer->setEngine($engine);
         $renderer->setResolver($resolver);
 
         return $renderer;
