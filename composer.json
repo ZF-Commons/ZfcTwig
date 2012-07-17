@@ -1,6 +1,6 @@
 {
     "name": "zf-commons/zfc-twig",
-    "description": "Zend Framework 2 Module that provides a Twig rendering strategy",
+    "description": "Zend Framework 2 Module that provides a Twig rendering strategy and extensions to render actions or trigger events from your templates",
     "type": "library",
     "keywords": [
         "twig",
@@ -13,6 +13,11 @@
             "name": "Kyle Spraggs",
             "email": "theman@spiffyjr.me",
             "homepage": "http://www.spiffyjr.me/"
+        },
+        {
+            "name": "Cosmin Harangus",
+            "email": "cosmin@zendexperts.com",
+            "homepage": "http://www.zendexperts.com/"
         }
     ],
     "require": {

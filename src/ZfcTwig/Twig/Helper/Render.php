@@ -1,10 +1,11 @@
 <?php
 namespace ZfcTwig\Twig\Helper;
 use Zend\Http\Response,
-    Zend\Mvc\Controller\ActionController,
+    Zend\Mvc\Controller\AbstractActionController,
     Zend\View\Model\ModelInterface,
     Zend\View\Model\ViewModel,
     Zend\Mvc\InjectApplicationEventInterface,
+    Zend\Mvc\View\InjectTemplateListener,
     Zend\EventManager\EventManager,
     Zend\EventManager\EventManagerInterface,
     Zend\EventManager\Event,
@@ -63,21 +64,27 @@ class Render
         $serviceManager = $this->serviceLocator;
         $application = $serviceManager->get('Application');
         //parse the name of the controller, action and template directory that should be used
-        $params = explode('/', $expr);
+        $params = explode(':', $expr);
         $controllerName = $params[0];
-        $actionName = $params[1];
-        $templateDir = $controllerName . '/';
+        $actionName = 'not-found';
+        if (isset($params[1])){
+            $actionName = $params[1];
+        }
 
         //instantiate the controller based on the given name
         $controller = $serviceManager->get('ControllerLoader')->get($controllerName);
+
         //clone the MvcEvent and route and update them with the provided parameters
         $event = $application->getMvcEvent();
         $routeMatch = clone $event->getRouteMatch();
         $event = clone $event;
+        $event->setTarget($controller);
+        $routeMatch->setParam('action', $actionName);
         foreach ($attributes as $key => $value) {
             $routeMatch->setParam($key, $value);
         }
         $event->setRouteMatch($routeMatch);
+        $actionName = $routeMatch->getParam('action');
 
         //inject the new event into the controller
         if ($controller instanceof InjectApplicationEventInterface) {
@@ -85,11 +92,12 @@ class Render
         }
 
         //test if the action exists in the controller and change it to not-found if missing
-        $method = ActionController::getMethodFromAction($actionName);
+        $method = AbstractActionController::getMethodFromAction($actionName);
         if (!method_exists($controller, $method)) {
             $method = 'notFoundAction';
             $actionName = 'not-found';
         }
+
         //call the method on the controller
         $response = $controller->$method();
         //if the result is an instance of the Response class return it
@@ -102,13 +110,21 @@ class Render
             $viewModel = $response;
         } elseif ($response === null || is_array($response) || $response instanceof \ArrayAccess || $response instanceof \Traversable) {
             $viewModel = new ViewModel($response);
-            $viewModel->setTemplate($templateDir . $actionName);
         } else {
             return '';
         }
+
+        //inject the view model into the MVC event
+        $event->setResult($viewModel);
+
+        //inject template name based on the matched route
+        $injectTemplateListener = new InjectTemplateListener();
+        $injectTemplateListener->injectTemplate($event);
+
         $viewModel->terminate();
         $viewModel->setOption('has_parent', true);
 
+        //render the view model
         $view = $serviceManager->get('Zend\View\View');
         $output = $view->render($viewModel);
         return $output;

@@ -18,7 +18,7 @@ class EnvironmentFactory implements FactoryInterface
         $manager = $serviceLocator->get('ViewHelperManager');
 
         $loader = new AbsoluteFilesystem();
-        $resolver = $serviceLocator->get('ViewResolver'); 
+        $resolver = $serviceLocator->get('ViewResolver');
         $loader->setFallbackResolver($resolver);
 
         $twig = new Environment($loader, $config['config']);

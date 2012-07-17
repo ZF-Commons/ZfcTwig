@@ -45,16 +45,16 @@ Apart from that the module adds two extension tags:
     
 1. A tag for rendering a controller action:
 
-    ```{% render "core-index/index" with {'param1':1} %}```
+    ```{% render "core-index:index" with {'param1':1} %}```
     
     The above code will call the `indexAction` from the `core-index` controller as defined in the ControllerLoader service.
     Optionally you can also specify different parameters to send to the processed action which can later be retrieved from the matched route.
 
 2. A tag for triggering an event on the renderer that is similar to the above syntax:
 
-    ```{% trigger "myRendererEvent" on myObject with {'param1':1} %}```
+    ```{% trigger "alias:myEvent" on myObject with {'param1':1} %}```
     
-    Both the target object and parameters are optional. The result of each listener is converted to string and rendered intead of the definition.
+    Both the target object and parameters are optional. The result of each listener is converted to string and rendered instead of the definition. If the above alias is not specified then it will default to `zfc-twig`.
     
 Examples
 --------
