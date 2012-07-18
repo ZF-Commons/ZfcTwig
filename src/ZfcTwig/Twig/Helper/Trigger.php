@@ -11,7 +11,7 @@ class Trigger
     /**
      * @var \Zend\EventManager\EventManager | null
      */
-    protected $events = null;
+    protected $events = array();
     protected $serviceLocator;
 
     public function __construct(ServiceLocatorInterface $serviceLocator)
@@ -24,29 +24,30 @@ class Trigger
      * @param \Zend\EventManager\EventManagerInterface $events
      * @return Trigger
      */
-    public function setEventManager(EventManagerInterface $events)
+    public function setEventManager(EventManagerInterface $events, $alias)
     {
-        $this->events = $events;
+        $this->events[$alias] = $events;
         return $this;
     }
 
     /**
      * Retrieve the event manager
      * Lazy-loads an EventManager instance if none registered.
+     * @param string $alias The alias of the class/EventManager on which to trigger the event
      * @return EventManagerInterface
      */
-    public function events()
+    public function events($alias)
     {
-        if (!$this->events instanceof EventManagerInterface) {
+        if (!isset($this->events[$alias]) || !($this->events[$alias] instanceof EventManagerInterface)) {
             $this->setEventManager(new EventManager(array(
                 __CLASS__,
                 get_called_class(),
-                'extend'
-            )));
+                $alias
+            )), $alias);
             $sharedManager = $this->serviceLocator->get('SharedEventManager');
-            $this->events->setSharedManager($sharedManager);
+            $this->events[$alias]->setSharedManager($sharedManager);
         }
-        return $this->events;
+        return $this->events[$alias];
     }
 
     /**
@@ -58,6 +59,13 @@ class Trigger
      */
     public function __invoke($eventName, $target, $argv)
     {
+        $alias = 'zfc-twig';
+        if (strpos($eventName, ':')!==false){
+            $aux = explode($eventName, ':');
+            $alias = $aux[0];
+            $eventName = $aux[1];
+        }
+
         //init the event with the target, params and name
         $event = new Event();
         $event->setTarget($target);
@@ -65,7 +73,7 @@ class Trigger
         $event->setName($eventName);
         $content = "";
         //trigger the event listeners
-        $responses = $this->events()->trigger($eventName, $event);
+        $responses = $this->events($alias)->trigger($eventName, $event);
         //merge all results and return the response
         foreach ($responses as $response) {
             $content .= $response;
