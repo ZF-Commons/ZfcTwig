@@ -61,7 +61,7 @@ class Trigger
     {
         $alias = 'zfc-twig';
         if (strpos($eventName, ':')!==false){
-            $aux = explode($eventName, ':');
+            $aux = explode(':', $eventName);
             $alias = $aux[0];
             $eventName = $aux[1];
         }
