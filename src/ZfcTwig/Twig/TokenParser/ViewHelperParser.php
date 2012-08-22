@@ -36,5 +36,4 @@ class ViewHelperParser extends Twig_TokenParser
     {
         return 'ZendViewHelper';
     }
-
 }

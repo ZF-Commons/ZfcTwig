@@ -15,6 +15,16 @@ class Renderer extends PhpRenderer
     protected $engine;
 
     /**
+     * @var bool
+     */
+    protected $suffixLocked;
+
+    /**
+     * @var string
+     */
+    protected $suffix;
+
+    /**
      * @param \Twig_Environment $engine
      * @return Renderer
      */
@@ -30,6 +40,30 @@ class Renderer extends PhpRenderer
     public function getEngine()
     {
         return $this->engine;
+    }
+
+    /**
+     * @param $nameOrModel
+     */
+    public function canRender($nameOrModel)
+    {
+        if ($nameOrModel instanceof ModelInterface) {
+            $nameOrModel = $nameOrModel->getTemplate();
+        }
+
+        if ($this->getSuffixLocked()) {
+            return true;
+        }
+
+        $tpl = $this->resolver()->resolve($nameOrModel);
+        $ext = explode('.', basename($tpl));
+        $ext = $ext[count($ext) - 1];
+
+        if ($tpl && $ext == $this->getSuffix()) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -78,5 +112,41 @@ class Renderer extends PhpRenderer
         $twig = $this->getEngine();
 
         return $this->getFilterChain()->filter($twig->render($file, $vars));
+    }
+
+    /**
+     * @param boolean $suffixLocked
+     * @return Renderer
+     */
+    public function setSuffixLocked($suffixLocked)
+    {
+        $this->suffixLocked = $suffixLocked;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getSuffixLocked()
+    {
+        return $this->suffixLocked;
+    }
+
+    /**
+     * @param string $suffix
+     * @return Renderer
+     */
+    public function setSuffix($suffix)
+    {
+        $this->suffix = $suffix;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSuffix()
+    {
+        return $this->suffix;
     }
 }

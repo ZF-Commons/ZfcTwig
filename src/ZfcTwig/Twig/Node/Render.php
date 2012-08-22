@@ -1,9 +1,9 @@
 <?php
 namespace ZfcTwig\Twig\Node;
 
-use Twig_Node,
-    Twig_Node_Expression as Expression,
-    Twig_Compiler as Compiler;
+use Twig_Node;
+use Twig_Node_Expression as Expression;
+use Twig_Compiler as Compiler;
 
 class Render extends Twig_Node
 {
@@ -28,9 +28,6 @@ class Render extends Twig_Node
             ->subcompile($this->getNode('attributes'))
             ->raw(', ')
             ->subcompile($this->getNode('options'))
-            ->raw(");\n")
-        ;
+            ->raw(");\n");
     }
-
-
 }

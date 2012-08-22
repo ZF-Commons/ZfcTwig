@@ -1,15 +1,17 @@
 <?php
+
 namespace ZfcTwig\Twig\Helper;
-use Zend\Http\Response,
-    Zend\Mvc\Controller\AbstractActionController,
-    Zend\View\Model\ModelInterface,
-    Zend\View\Model\ViewModel,
-    Zend\Mvc\InjectApplicationEventInterface,
-    Zend\Mvc\View\InjectTemplateListener,
-    Zend\EventManager\EventManager,
-    Zend\EventManager\EventManagerInterface,
-    Zend\EventManager\Event,
-    Zend\ServiceManager\ServiceLocatorInterface;
+
+use Zend\Http\Response;
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ModelInterface;
+use Zend\View\Model\ViewModel;
+use Zend\Mvc\InjectApplicationEventInterface;
+use Zend\Mvc\View\InjectTemplateListener;
+use Zend\EventManager\EventManager;
+use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\Event;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Render
 {
