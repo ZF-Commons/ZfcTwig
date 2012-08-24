@@ -1,23 +1,25 @@
-ZfcTwig
-=======
+# ZfcTwig
+
 ZfcTwig is a module that integrates the [Twig](http://twig.sensiolabs.org) templating engine with
 [Zend Framework 2](http://framework.zend.com).
 
-Installation
-------------
+## Installation
+
  1. Add `"zf-commons/zfc-twig": "dev-master"` to your `composer.json` file and run `php composer.phar update`.
  2. Add `ZfcTwig` to your `config/application.config.php` file under the `modules` key.
 
-Configuration
--------------
+## Configuration
+
 ZfcTwig has sane defaults out of the box but offers optional configuration via the `zfctwig` configuration key.
 
     `config` - passed directly to the Twig_Environment class. 
-             - Added `allow_php_fallback` to allow fallback to php functions if the called function was not found. Active by default.
+             - Added `allow_php_fallback` to allow fallback to php functions if the called function was not found.
+               Active by default.
     `suffix` - the suffix to use for Twig templates, default is .twig.
     
 ZfcTwig integrates with the View Manager service and uses the same resolvers defined within that service. 
-This allows you to define the template path stacks and maps within the view manager without having to set them again when installing the module:
+This allows you to define the template path stacks and maps within the view manager without having to set them again
+when installing the module:
 
     'view_manager' => array(
         'template_path_stack'   => array(
@@ -29,9 +31,13 @@ This allows you to define the template path stacks and maps within the view mana
         ),
     ), 
 
-Documentation
--------------
-Any command from the original Twig library should work and also added support for Zend View helpers as functions and PHP functions as a fallback.
+## Documentation
+
+
+### View Helpers
+
+Any command from the original Twig library should work and also added support for Zend View helpers as functions and
+PHP functions as a fallback.
 
 To use Zend View helpers you just need to invoke them as a function:
 
@@ -41,7 +47,13 @@ In case you just want to execute a view helper without rendering it you can use 
 
     {% do headTitle('My awesome rendered title') %}
 
-Apart from that the module adds two extension tags:
+For an advanced case you can combine view helpers together like:
+
+    {% do form.setAttribute('action', ( url('/events/add') ) ) %}
+
+### Extensions
+
+The module adds two extension tags:
     
 1. A tag for rendering a controller action:
 
@@ -56,7 +68,7 @@ Apart from that the module adds two extension tags:
     
     Both the target object and parameters are optional. The result of each listener is converted to string and rendered instead of the definition. If the above alias is not specified then it will default to `zfc-twig`.
     
-Examples
---------
+# Examples
+
 Example .twig files for the skeleton application can be found in the
 [examples](https://github.com/ZF-Commons/ZfcTwig/tree/master/examples) folder.

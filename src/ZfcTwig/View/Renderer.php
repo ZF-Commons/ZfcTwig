@@ -51,7 +51,7 @@ class Renderer extends PhpRenderer
             $nameOrModel = $nameOrModel->getTemplate();
         }
 
-        if ($this->getSuffixLocked()) {
+        if (!$this->getSuffixLocked()) {
             return true;
         }
 
