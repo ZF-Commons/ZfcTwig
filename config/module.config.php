@@ -4,10 +4,10 @@ return array(
         'config' => array(
             'cache' => 'data/cache/twig',
             'allow_php_fallback' => true,
-            'auto_reload'=>true,
+            'auto_reload' => true,
         ),
         'suffix' => 'twig',
-        'suffix_locked' => false,
+        'suffix_locked' => true,
         'extensions' => array(
 
         )

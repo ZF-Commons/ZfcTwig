@@ -18,7 +18,7 @@ class ViewRendererFactory implements FactoryInterface
         $pathResolver->setDefaultSuffix($config['suffix']);
 
         $resolver = $serviceLocator->get('ViewResolver');
-        $resolver->attach($pathResolver);
+        $resolver->attach($pathResolver, 2);
 
         $renderer = new Renderer();
         $renderer->setSuffixLocked(isset($config['suffix_locked']) ? $config['suffix_locked'] : false);
