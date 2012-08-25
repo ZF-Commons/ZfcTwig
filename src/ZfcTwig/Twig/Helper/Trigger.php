@@ -1,10 +1,12 @@
 <?php
+
 namespace ZfcTwig\Twig\Helper;
-use Zend\Mvc\InjectApplicationEventInterface,
-    Zend\EventManager\EventManager,
-    Zend\EventManager\EventManagerInterface,
-    Zend\EventManager\Event,
-    Zend\ServiceManager\ServiceLocatorInterface;
+
+use Zend\Mvc\InjectApplicationEventInterface;
+use Zend\EventManager\EventManager;
+use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\Event;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Trigger
 {

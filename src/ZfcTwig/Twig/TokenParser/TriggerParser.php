@@ -1,10 +1,12 @@
 <?php
+
 namespace ZfcTwig\Twig\TokenParser;
-use ZfcTwig\Twig\Node\Trigger as TwiggerNode,
-    Twig_TokenParser,
-    Twig_Token,
-    Twig_Node_Expression_Array,
-    Twig_Node_Expression_Constant;
+
+use ZfcTwig\Twig\Node\Trigger as TwiggerNode;
+use Twig_TokenParser;
+use Twig_Token;
+use Twig_Node_Expression_Array;
+use Twig_Node_Expression_Constant;
 
 class TriggerParser extends Twig_TokenParser
 {
@@ -48,5 +50,4 @@ class TriggerParser extends Twig_TokenParser
     {
         return 'trigger';
     }
-
 }

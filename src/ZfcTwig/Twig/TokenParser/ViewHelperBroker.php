@@ -10,7 +10,7 @@ use ZfcTwig\Twig\TokenParser\ViewHelperParser;
 class ViewHelperBroker extends Twig_TokenParserBroker
 {
     /**
-     * @var ViewHelper
+     * @var ViewHelperParser
      */
     protected $parser;
 
@@ -35,7 +35,7 @@ class ViewHelperBroker extends Twig_TokenParserBroker
      *
      * @param string $tag A tag name
      *
-     * @return null|Twig_TokenParserInterface A Twig_TokenParserInterface or null if no suitable TokenParser was found
+     * @return null|\Twig_TokenParserInterface A Twig_TokenParserInterface or null if no suitable TokenParser was found
      */
     public function getTokenParser($tag)
     {
@@ -59,7 +59,7 @@ class ViewHelperBroker extends Twig_TokenParserBroker
     /**
      * Gets the Twig_ParserInterface.
      *
-     * @return null|ViewHelper A Twig_ParserInterface instance or null
+     * @return null|ViewHelperParser A Twig_ParserInterface instance or null
      */
     public function getParser()
     {

@@ -1,9 +1,11 @@
 <?php
+
 namespace ZfcTwig\Twig\TokenParser;
-use ZfcTwig\Twig\Node\Render as RenderNode,
-    Twig_TokenParser,
-    Twig_Token,
-    Twig_Node_Expression_Array;
+
+use ZfcTwig\Twig\Node\Render as RenderNode;
+use Twig_TokenParser;
+use Twig_Token;
+use Twig_Node_Expression_Array;
 
 class RenderParser extends Twig_TokenParser
 {
@@ -26,6 +28,7 @@ class RenderParser extends Twig_TokenParser
         }
         $options = new Twig_Node_Expression_Array(array(), $token->getLine());
         $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+
         return new RenderNode($expr, $attributes, $options, $token->getLine(), $this->getTag());
     }
 
@@ -38,5 +41,4 @@ class RenderParser extends Twig_TokenParser
     {
         return 'render';
     }
-
 }
