@@ -25,7 +25,6 @@ class ViewRendererFactory implements FactoryInterface
         $renderer->setSuffix(isset($config['suffix']) ? $config['suffix'] : 'twig');
 
         $engine = $serviceLocator->get('TwigEnvironment');
-        $engine->manager()->setRenderer($renderer);
         $renderer->setHelperPluginManager($engine->manager());
 
         $renderer->setEngine($engine);
