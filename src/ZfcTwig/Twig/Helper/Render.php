@@ -7,7 +7,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ModelInterface;
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\InjectApplicationEventInterface;
-use Zend\Mvc\View\InjectTemplateListener;
+use Zend\Mvc\View\Http\InjectTemplateListener;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\Event;
