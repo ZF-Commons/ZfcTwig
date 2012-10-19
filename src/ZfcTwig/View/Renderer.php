@@ -9,6 +9,7 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Renderer extends PhpRenderer
 {
+
     /**
      * @var \Twig_Environment
      */
@@ -54,14 +55,20 @@ class Renderer extends PhpRenderer
         if (!$this->getSuffixLocked()) {
             return true;
         }
-
-        $tpl = $this->resolver()->resolve($nameOrModel);
-        $ext = explode('.', basename($tpl));
-        $ext = $ext[count($ext) - 1];
-
-        if ($tpl && $ext == $this->getSuffix()) {
+        
+        if ($this->getEngine()->getLoader()->exists($nameOrModel)) {
             return true;
         }
+
+        if ($tpl = $this->resolver()->resolve($nameOrModel)) {
+            $ext = explode('.', basename($tpl));
+            $ext = $ext[count($ext) - 1];
+            if ($tpl && $ext == $this->getSuffix()) {
+                return true;
+            }
+        }
+
+
 
         return false;
     }
@@ -76,13 +83,12 @@ class Renderer extends PhpRenderer
     public function render($nameOrModel, $values = null)
     {
         if ($nameOrModel instanceof ModelInterface) {
-            $model       = $nameOrModel;
+            $model = $nameOrModel;
             $nameOrModel = $model->getTemplate();
 
             if (empty($nameOrModel)) {
                 throw new Exception\DomainException(sprintf(
-                    '%s: received View Model argument, but template is empty',
-                    __METHOD__
+                                '%s: received View Model argument, but template is empty', __METHOD__
                 ));
             }
 
@@ -103,15 +109,16 @@ class Renderer extends PhpRenderer
         if (null !== $values) {
             $this->setVars($values);
         }
+        
+        $twig = $this->getEngine();
+        
+        
 
-        if (!($file = $this->resolver()->resolve($nameOrModel))) {
-            throw new \Twig_Error_Loader(sprintf('Unable to find template "%s".', $nameOrModel));
-        }
 
         $vars = $this->vars()->getArrayCopy();
-        $twig = $this->getEngine();
+        
 
-        return $this->getFilterChain()->filter($twig->render($file, $vars));
+        return $this->getFilterChain()->filter($twig->render($nameOrModel, $vars));
     }
 
     /**
@@ -149,4 +156,5 @@ class Renderer extends PhpRenderer
     {
         return $this->suffix;
     }
+
 }

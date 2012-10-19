@@ -61,19 +61,6 @@ class Strategy implements ListenerAggregateInterface
         $result   = $e->getResult();
         $response = $e->getResponse();
 
-        // Set content
-        // If content is empty, check common placeholders to determine if they are
-        // populated, and set the content from them.
-        /*if (empty($result)) {
-            $placeholders = $renderer->plugin('placeholder');
-            $registry     = $placeholders->getRegistry();
-            foreach ($this->contentPlaceholders as $placeholder) {
-                if ($registry->containerExists($placeholder)) {
-                    $result = (string) $registry->getContainer($placeholder);
-                    break;
-                }
-            }
-        }*/
         $response->setContent($result);
     }
 }
