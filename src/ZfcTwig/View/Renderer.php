@@ -68,8 +68,6 @@ class Renderer extends PhpRenderer
             }
         }
 
-
-
         return false;
     }
 
@@ -111,12 +109,11 @@ class Renderer extends PhpRenderer
         }
         
         $twig = $this->getEngine();
-        
-        
-
-
         $vars = $this->vars()->getArrayCopy();
         
+        if (!$this->canRender($nameOrModel)) {
+            throw new \Twig_Error_Loader(sprintf('Unable to find template "%s".', $nameOrModel));
+        }
 
         return $this->getFilterChain()->filter($twig->render($nameOrModel, $vars));
     }

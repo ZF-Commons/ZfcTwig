@@ -8,7 +8,6 @@ use Zend\View\Resolver\ResolverInterface;
 
 class Filesystem extends Twig_Loader_Filesystem
 {
-
     /**
      * @var \Zend\View\Resolver\ResolverInterface
      */
@@ -27,7 +26,12 @@ class Filesystem extends Twig_Loader_Filesystem
         $this->fallbackResolver = $fallbackResolver;
         return $this;
     }
-
+    
+    /**
+     * @param string $name
+     * @return string
+     * @throws \Twig_Error_Loader
+     */
     protected function findTemplate($name)
     {
         // normalize name
