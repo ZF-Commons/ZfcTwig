@@ -55,17 +55,12 @@ class Renderer extends PhpRenderer
         if (!$this->getSuffixLocked()) {
             return true;
         }
-        
-        if ($this->getEngine()->getLoader()->exists($nameOrModel)) {
-            return true;
-        }
 
-        if ($tpl = $this->resolver()->resolve($nameOrModel)) {
-            $ext = explode('.', basename($tpl));
-            $ext = $ext[count($ext) - 1];
-            if ($tpl && $ext == $this->getSuffix()) {
-                return true;
-            }
+        $ext = pathinfo($nameOrModel, PATHINFO_EXTENSION);
+
+        if ($ext == $this->getSuffix() 
+            && $this->getEngine()->getLoader()->exists($nameOrModel)) {
+            return true;
         }
 
         return false;
