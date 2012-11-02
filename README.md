@@ -67,7 +67,20 @@ The module adds two extension tags:
     ```{% trigger "alias:myEvent" on myObject with {'param1':1} %}```
     
     Both the target object and parameters are optional. The result of each listener is converted to string and rendered instead of the definition. If the above alias is not specified then it will default to `zfc-twig`.
-    
+   
+### Namespaces
+
+The module supports [namespaces](http://twig.sensiolabs.org/doc/api.html#built-in-loaders) which can be configured using the `namespaces` configuration key:
+
+    'zfctwig' => array(
+        'namespaces' => array(
+            'admin'     => __DIR__ . '/../views/admin',
+            'frontend'  => __DIR__ . '/../views/frontend',
+        ),
+    ),
+
+When using a namespace the views will only be resolved to the specified namespace folder and not fallback to the View Manager resolver
+
 # Examples
 
 Example .twig files for the skeleton application can be found in the
