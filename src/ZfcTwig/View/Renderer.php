@@ -9,6 +9,7 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Renderer extends PhpRenderer
 {
+
     /**
      * @var \Twig_Environment
      */
@@ -55,11 +56,10 @@ class Renderer extends PhpRenderer
             return true;
         }
 
-        $tpl = $this->resolver()->resolve($nameOrModel);
-        $ext = explode('.', basename($tpl));
-        $ext = $ext[count($ext) - 1];
+        $ext = pathinfo($nameOrModel, PATHINFO_EXTENSION);
 
-        if ($tpl && $ext == $this->getSuffix()) {
+        if ($ext == $this->getSuffix() 
+            && $this->getEngine()->getLoader()->exists($nameOrModel)) {
             return true;
         }
 
@@ -76,13 +76,12 @@ class Renderer extends PhpRenderer
     public function render($nameOrModel, $values = null)
     {
         if ($nameOrModel instanceof ModelInterface) {
-            $model       = $nameOrModel;
+            $model = $nameOrModel;
             $nameOrModel = $model->getTemplate();
 
             if (empty($nameOrModel)) {
                 throw new Exception\DomainException(sprintf(
-                    '%s: received View Model argument, but template is empty',
-                    __METHOD__
+                                '%s: received View Model argument, but template is empty', __METHOD__
                 ));
             }
 
@@ -103,15 +102,15 @@ class Renderer extends PhpRenderer
         if (null !== $values) {
             $this->setVars($values);
         }
-
-        if (!($file = $this->resolver()->resolve($nameOrModel))) {
+        
+        $twig = $this->getEngine();
+        $vars = $this->vars()->getArrayCopy();
+        
+        if (!$this->canRender($nameOrModel)) {
             throw new \Twig_Error_Loader(sprintf('Unable to find template "%s".', $nameOrModel));
         }
 
-        $vars = $this->vars()->getArrayCopy();
-        $twig = $this->getEngine();
-
-        return $this->getFilterChain()->filter($twig->render($file, $vars));
+        return $this->getFilterChain()->filter($twig->render($nameOrModel, $vars));
     }
 
     /**
@@ -149,4 +148,5 @@ class Renderer extends PhpRenderer
     {
         return $this->suffix;
     }
+
 }

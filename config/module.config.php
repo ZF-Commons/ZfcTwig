@@ -10,7 +10,10 @@ return array(
         'suffix_locked' => true,
         'extensions' => array(
 
-        )
+        ),
+        'namespaces' => array(
+            
+        ),
     ),
     'view_manager' => array(
         'strategies'   => array('TwigViewStrategy'),
