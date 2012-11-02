@@ -15,7 +15,7 @@ class EnvironmentFactory implements FactoryInterface
     {
         $config = $serviceLocator->get('Configuration');
         $config = $config['zfctwig'];
-        $manager = $serviceLocator->get('ViewHelperManager');
+        $manager = clone $serviceLocator->get('ViewHelperManager');
 
         $loader = new Filesystem(array());
         $resolver = $serviceLocator->get('ViewResolver');
