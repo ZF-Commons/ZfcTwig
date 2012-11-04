@@ -19,7 +19,7 @@ class Filesystem extends Twig_Loader_Filesystem
      * method in Twig.
      *
      * @param \Zend\View\Resolver\ResolverInterface $fallbackResolver
-     * @return AbsoluteFilesystem
+     * @return Filesystem
      */
     public function setFallbackResolver(ResolverInterface $fallbackResolver)
     {
@@ -50,8 +50,7 @@ class Filesystem extends Twig_Loader_Filesystem
             }
 
             $namespace = substr($name, 1, $pos - 1);
-
-            $name = substr($name, $pos + 1);
+            $name      = substr($name, $pos + 1);
         }
 
 

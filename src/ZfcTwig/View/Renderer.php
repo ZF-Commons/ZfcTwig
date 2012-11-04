@@ -56,10 +56,10 @@ class Renderer extends PhpRenderer
             return true;
         }
 
-        $ext = pathinfo($nameOrModel, PATHINFO_EXTENSION);
+        $tpl = $this->resolver()->resolve($nameOrModel);
+        $ext = pathinfo($tpl, PATHINFO_EXTENSION);
 
-        if ($ext == $this->getSuffix() 
-            && $this->getEngine()->getLoader()->exists($nameOrModel)) {
+        if ($ext == $this->getSuffix()) {
             return true;
         }
 
