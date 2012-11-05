@@ -14,21 +14,14 @@ class ViewRendererFactory implements FactoryInterface
         $config = $serviceLocator->get('Configuration');
         $config = $config['zfctwig'];
 
-        $pathResolver = clone $serviceLocator->get('ViewTemplatePathStack');
-        $pathResolver->setDefaultSuffix($config['suffix']);
-
-        $resolver = $serviceLocator->get('ViewResolver');
-        $resolver->attach($pathResolver, 2);
-
         $renderer = new Renderer();
         $renderer->setSuffixLocked(isset($config['suffix_locked']) ? $config['suffix_locked'] : false);
         $renderer->setSuffix(isset($config['suffix']) ? $config['suffix'] : 'twig');
 
         $engine = $serviceLocator->get('TwigEnvironment');
         $renderer->setHelperPluginManager($engine->manager());
-
         $renderer->setEngine($engine);
-        $renderer->setResolver($resolver);
+        $renderer->setResolver($serviceLocator->get('TwigResolver'));
 
         return $renderer;
     }

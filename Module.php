@@ -20,9 +20,10 @@ class Module
         return array(
             'aliases' => array(),
             'factories' => array(
-                'TwigEnvironment'  => 'ZfcTwig\Service\EnvironmentFactory',
-                'TwigViewRenderer' => 'ZfcTwig\Service\ViewRendererFactory',
-                'TwigViewStrategy' => 'ZfcTwig\Service\ViewStrategyFactory',
+                'TwigEnvironment'   => 'ZfcTwig\Service\EnvironmentFactory',
+                'TwigViewRenderer'  => 'ZfcTwig\Service\ViewRendererFactory',
+                'TwigViewStrategy'  => 'ZfcTwig\Service\ViewStrategyFactory',
+                'TwigResolver'      => 'ZfcTwig\Service\ViewResolverFactory',
             )
         );
     }

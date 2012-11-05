@@ -26,7 +26,7 @@ class Filesystem extends Twig_Loader_Filesystem
         $this->fallbackResolver = $fallbackResolver;
         return $this;
     }
-    
+
     /**
      * @param string $name
      * @return string
@@ -52,8 +52,7 @@ class Filesystem extends Twig_Loader_Filesystem
             $namespace = substr($name, 1, $pos - 1);
             $name      = substr($name, $pos + 1);
         }
-
-
+        
         if (!isset($this->paths[$namespace])) {
             throw new Twig_Error_Loader(sprintf('There are no registered paths for namespace "%s".', $namespace));
         }
