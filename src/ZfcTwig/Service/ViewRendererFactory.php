@@ -2,11 +2,13 @@
 
 namespace ZfcTwig\Service;
 
-use ZfcTwig\View\Renderer;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Resolver\TemplatePathStack;
+use ZfcTwig\View\Renderer;
 
+/**
+ * Twig View Renderer Factory
+ */
 class ViewRendererFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
