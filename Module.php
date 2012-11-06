@@ -23,7 +23,7 @@ class Module
                 'TwigEnvironment'   => 'ZfcTwig\Service\EnvironmentFactory',
                 'TwigViewRenderer'  => 'ZfcTwig\Service\ViewRendererFactory',
                 'TwigViewStrategy'  => 'ZfcTwig\Service\ViewStrategyFactory',
-                'TwigResolver'      => 'ZfcTwig\Service\ViewResolverFactory',
+                'TwigViewResolver'      => 'ZfcTwig\Service\ViewResolverFactory',
             )
         );
     }

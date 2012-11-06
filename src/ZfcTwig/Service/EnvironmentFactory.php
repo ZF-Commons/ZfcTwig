@@ -18,7 +18,7 @@ class EnvironmentFactory implements FactoryInterface
  
         $manager = clone $serviceLocator->get('ViewHelperManager');
 
-        $loader = $serviceLocator->get('TwigResolver');
+        $loader = $serviceLocator->get('TwigViewResolver');
 
         $twig = new Environment($loader, $config['config']);
         $twig->addExtension(new Extension($twig, $serviceLocator));
