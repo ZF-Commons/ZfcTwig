@@ -8,7 +8,7 @@ use ZfcTwig\Twig\Loader\Filesystem;
 
 /**
  * View Resolver
- * 
+ *
  * Can be used as both a Zend Resolver and a Twig resolver
  */
 class Resolver extends Filesystem implements ResolverInterface

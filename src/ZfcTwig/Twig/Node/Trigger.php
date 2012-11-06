@@ -7,6 +7,9 @@ use Twig_Compiler as Compiler;
 
 class Trigger extends Twig_Node
 {
+    /**
+     * {@inheritDoc}
+     */
     public function __construct(Expression $event, Expression $target, Expression $attributes, $lineno, $tag = null)
     {
         parent::__construct(
@@ -18,6 +21,9 @@ class Trigger extends Twig_Node
             array(), $lineno, $tag);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function compile(Compiler $compiler)
     {
         $compiler
@@ -28,9 +34,6 @@ class Trigger extends Twig_Node
             ->subcompile($this->getNode('target'))
             ->raw(', ')
             ->subcompile($this->getNode('attributes'))
-            ->raw(");\n")
-        ;
+            ->raw(");\n");
     }
-
-
 }

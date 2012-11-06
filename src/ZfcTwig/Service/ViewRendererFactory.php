@@ -11,6 +11,10 @@ use ZfcTwig\View\Renderer;
  */
 class ViewRendererFactory implements FactoryInterface
 {
+    /**
+     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     * @return \ZfcTwig\View\Renderer
+     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Configuration');

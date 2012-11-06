@@ -13,11 +13,16 @@ use ZfcTwig\Twig\Extension;
  */
 class EnvironmentFactory implements FactoryInterface
 {
+    /**
+     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     * @return \ZfcTwig\Twig\Environment
+     * @throws InvalidArgumentException
+     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Configuration');
         $config = $config['zfctwig'];
- 
+
         $loader = $serviceLocator->get('TwigViewResolver');
         $twig = new Environment($loader, $config['config']);
         $twig->addExtension(new Extension($twig, $serviceLocator));

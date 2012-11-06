@@ -11,11 +11,18 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class Trigger
 {
     /**
-     * @var \Zend\EventManager\EventManager | null
+     * @var \Zend\EventManager\EventManager|null
      */
     protected $events = array();
+    
+    /**
+     * @var \Zend\ServiceManager\ServiceLocatorInterface 
+     */
     protected $serviceLocator;
-
+    
+    /**
+     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     */
     public function __construct(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
@@ -23,6 +30,7 @@ class Trigger
 
     /**
      * Set the event manager instance used by this context
+     * 
      * @param \Zend\EventManager\EventManagerInterface $events
      * @return Trigger
      */
@@ -35,6 +43,7 @@ class Trigger
     /**
      * Retrieve the event manager
      * Lazy-loads an EventManager instance if none registered.
+     * 
      * @param string $alias The alias of the class/EventManager on which to trigger the event
      * @return EventManagerInterface
      */
@@ -54,6 +63,7 @@ class Trigger
 
     /**
      * Triggers the specified event on the defined context and return a concateneted string with the results
+     * 
      * @param string $eventName
      * @param mixed $target
      * @param array $argv

@@ -8,6 +8,10 @@ use ZfcTwig\View\Resolver;
 
 class ViewResolverFactory implements FactoryInterface
 {
+    /**
+     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     * @return \ZfcTwig\View\Resolver
+     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Configuration');
@@ -21,11 +25,11 @@ class ViewResolverFactory implements FactoryInterface
 
         $loader = new Resolver(array());
         $loader->setFallbackResolver($resolver);
-        
+
         foreach ($config['namespaces'] as $namespace => $path) {
             $loader->addPath($path, $namespace);
         }
-        
+
         return $loader;
     }
 }

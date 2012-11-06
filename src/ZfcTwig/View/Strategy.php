@@ -30,12 +30,19 @@ class Strategy implements ListenerAggregateInterface
         $this->renderer = $renderer;
     }
 
+    /**
+     * @param \Zend\EventManager\EventManagerInterface $events
+     * @param integer $priority
+     */
     public function attach(EventManagerInterface $events, $priority = 100)
     {
         $this->listeners[] = $events->attach(ViewEvent::EVENT_RENDERER, array($this, 'selectRenderer'), $priority);
         $this->listeners[] = $events->attach(ViewEvent::EVENT_RESPONSE, array($this, 'injectResponse'), $priority);
     }
 
+    /**
+     * @param \Zend\EventManager\EventManagerInterface $events
+     */
     public function detach(EventManagerInterface $events)
     {
         foreach ($this->listeners as $index => $listener) {
@@ -44,6 +51,10 @@ class Strategy implements ListenerAggregateInterface
         }
     }
 
+    /**
+     * @param \Zend\View\ViewEvent $e
+     * @return \Zend\Feed\Writer\Renderer\RendererInterface|boolean
+     */
     public function selectRenderer(ViewEvent $e)
     {
         if (!$this->renderer->canRender($e->getModel()->getTemplate())) {
@@ -52,6 +63,10 @@ class Strategy implements ListenerAggregateInterface
         return $this->renderer;
     }
 
+    /**
+     * @param \Zend\View\ViewEvent $e
+     * @return null
+     */
     public function injectResponse(ViewEvent $e)
     {
         $renderer = $e->getRenderer();
