@@ -36,7 +36,7 @@ class Environment extends Twig_Environment
     /**
      * @return \Zend\View\HelperPluginManager
      */
-    public function manager()
+    public function getManager()
     {
         return $this->manager;
     }
@@ -47,7 +47,7 @@ class Environment extends Twig_Environment
      */
     public function plugin($name)
     {
-        return $this->manager()->get($name);
+        return $this->getManager()->get($name);
     }
 
     /**
