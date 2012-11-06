@@ -17,11 +17,11 @@ class Module implements
     public function getAutoloaderConfig()
     {
         return array(
-            'Zend\Loader\StandardAutoloader' => array(
-                'namespaces' => array(
-                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__
-                )
-            )
+            AutoloaderFactory::STANDARD_AUTOLOADER => array(
+                StandardAutoloader::LOAD_NS => array(
+                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+                ),
+            ),
         );
     }
 
