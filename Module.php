@@ -2,8 +2,18 @@
 
 namespace ZfcTwig;
 
-class Module
+use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Zend\ModuleManager\Feature\ServiceProviderInterface;
+
+class Module implements
+    AutoloaderProviderInterface,
+    ServiceProviderInterface,
+    ConfigProviderInterface
 {
+    /**
+     * {@inheritDoc}
+     */
     public function getAutoloaderConfig()
     {
         return array(
@@ -15,6 +25,9 @@ class Module
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getServiceConfig()
     {
         return array(
@@ -23,14 +36,16 @@ class Module
                 'TwigEnvironment'   => 'ZfcTwig\Service\EnvironmentFactory',
                 'TwigViewRenderer'  => 'ZfcTwig\Service\ViewRendererFactory',
                 'TwigViewStrategy'  => 'ZfcTwig\Service\ViewStrategyFactory',
-                'TwigViewResolver'      => 'ZfcTwig\Service\ViewResolverFactory',
+                'TwigViewResolver'  => 'ZfcTwig\Service\ViewResolverFactory',
             )
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
     }
-
 }
