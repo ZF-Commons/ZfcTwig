@@ -3,11 +3,11 @@
 namespace ZfcTwig\Service;
 
 use InvalidArgumentException;
-use ZfcTwig\Twig\Loader\Filesystem;
-use ZfcTwig\Twig\Environment;
-use ZfcTwig\Twig\Extension;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use ZfcTwig\Twig\Environment;
+use ZfcTwig\Twig\Extension;
+use ZfcTwig\View\Resolver;
 
 class EnvironmentFactory implements FactoryInterface
 {
@@ -15,15 +15,10 @@ class EnvironmentFactory implements FactoryInterface
     {
         $config = $serviceLocator->get('Configuration');
         $config = $config['zfctwig'];
+ 
         $manager = clone $serviceLocator->get('ViewHelperManager');
 
-        $loader = new Filesystem(array());
-        $resolver = $serviceLocator->get('ViewResolver');
-        $loader->setFallbackResolver($resolver);
-        
-        foreach ($config['namespaces'] as $namespace => $path) {
-            $loader->addPath($path, $namespace);
-        }
+        $loader = $serviceLocator->get('TwigResolver');
 
         $twig = new Environment($loader, $config['config']);
         $twig->addExtension(new Extension($twig, $serviceLocator));
@@ -35,7 +30,6 @@ class EnvironmentFactory implements FactoryInterface
             }
             $twig->addExtension(new $ext);
         }
-
 
         return $twig;
     }
