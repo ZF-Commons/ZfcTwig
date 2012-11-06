@@ -30,15 +30,7 @@ class Module implements
      */
     public function getServiceConfig()
     {
-        return array(
-            'aliases' => array(),
-            'factories' => array(
-                'TwigEnvironment'   => 'ZfcTwig\Service\EnvironmentFactory',
-                'TwigViewRenderer'  => 'ZfcTwig\Service\ViewRendererFactory',
-                'TwigViewStrategy'  => 'ZfcTwig\Service\ViewStrategyFactory',
-                'TwigViewResolver'  => 'ZfcTwig\Service\ViewResolverFactory',
-            )
-        );
+        return include __DIR__ . '/config/service.config.php';
     }
 
     /**
