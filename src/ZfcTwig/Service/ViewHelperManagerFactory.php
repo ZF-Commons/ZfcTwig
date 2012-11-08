@@ -10,6 +10,8 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class ViewHelperManagerFactory extends ParentViewHelperManagerFactory
 {
+    const PLUGIN_MANAGER_CLASS = 'ZfcTwig\View\HelperPluginManager';
+
     /**
      * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
      * @return \Zend\View\HelperPluginManager
