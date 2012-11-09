@@ -19,7 +19,7 @@ class ViewHelperManagerFactory extends ParentViewHelperManagerFactory
 
     /**
      * The properties which should be copied from the ViewHelperManager
-     * 
+     *
      * @var array
      */
     protected $properties = array(
@@ -37,7 +37,7 @@ class ViewHelperManagerFactory extends ParentViewHelperManagerFactory
         if (null == $this->hydrator) {
             $this->hydrator = new ReflectionHydrator;
         }
-        
+
         return $this->hydrator;
     }
 

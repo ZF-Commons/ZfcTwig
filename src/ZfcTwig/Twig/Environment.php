@@ -14,8 +14,6 @@ class Environment extends Twig_Environment
     protected $manager;
 
     /**
-     * 
-     * 
      * @var boolean
      */
     protected $allowPhpFallback;

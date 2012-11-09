@@ -20,7 +20,7 @@ class Render extends Twig_Node
             ),
             array(), $lineno, $tag);
     }
-    
+
     /**
      * {@inheritDoc}
      */

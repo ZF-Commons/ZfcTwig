@@ -34,7 +34,7 @@ class TriggerParser extends Twig_TokenParser
         }
 
         $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
- 
+
         return new TwiggerNode($expr, $target, $attributes, $token->getLine(), $this->getTag());
     }
 

@@ -16,7 +16,7 @@ class Extension extends Twig_Extension
      * @var Environment
      */
     protected $env;
-    
+
     /**
      * @var array
      */
