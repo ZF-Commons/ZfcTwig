@@ -46,7 +46,10 @@ class Filesystem extends Twig_Loader_Filesystem
         $namespace = '__main__';
         if (isset($name[0]) && '@' == $name[0]) {
             if (false === $pos = strpos($name, '/')) {
-                throw new Twig_Error_Loader(sprintf('Malformed namespaced template name "%s" (expecting "@namespace/template_name").', $name));
+                throw new Twig_Error_Loader(sprintf(
+                    'Malformed namespaced template name "%s" (expecting "@namespace/template_name").',
+                    $name
+                ));
             }
 
             $namespace = substr($name, 1, $pos - 1);
@@ -54,7 +57,10 @@ class Filesystem extends Twig_Loader_Filesystem
         }
         
         if (!isset($this->paths[$namespace])) {
-            throw new Twig_Error_Loader(sprintf('There are no registered paths for namespace "%s".', $namespace));
+            throw new Twig_Error_Loader(sprintf(
+                'There are no registered paths for namespace "%s".',
+                $namespace
+            ));
         }
 
         if ($namespace == '__main__' && ($fallbackName = $this->fallbackResolver->resolve($name))) {
@@ -67,7 +73,11 @@ class Filesystem extends Twig_Loader_Filesystem
             }
         }
 
-        throw new Twig_Error_Loader(sprintf('Unable to find template "%s" (looked into: %s).', $name, implode(', ', $this->paths[$namespace])));
+        throw new Twig_Error_Loader(sprintf(
+            'Unable to find template "%s" (looked into: %s).',
+            $name,
+            implode(', ', $this->paths[$namespace])
+    ));
     }
 
 }

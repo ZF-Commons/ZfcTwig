@@ -3,6 +3,7 @@
 namespace ZfcTwig\View;
 
 use Twig_Environment;
+use Twig_Error_Loader;
 use Zend\View\Exception;
 use Zend\View\Model\ModelInterface;
 use Zend\View\Renderer\PhpRenderer;
@@ -11,7 +12,7 @@ class Renderer extends PhpRenderer
 {
 
     /**
-     * @var \Twig_Environment
+     * @var Twig_Environment
      */
     protected $engine;
 
@@ -26,7 +27,7 @@ class Renderer extends PhpRenderer
     protected $suffix;
 
     /**
-     * @param \Twig_Environment $engine
+     * @param Twig_Environment $engine
      * @return Renderer
      */
     public function setEngine(Twig_Environment $engine)
@@ -36,7 +37,7 @@ class Renderer extends PhpRenderer
     }
 
     /**
-     * @return \Twig_Environment
+     * @return Twig_Environment
      */
     public function getEngine()
     {
@@ -69,9 +70,11 @@ class Renderer extends PhpRenderer
     /**
      * Processes a view script and returns the output.
      *
-     * @param  string|ModelInterface $name The script/resource process, or a view model
+     * @param  string|ModelInterface $nameOrModel The script/resource process, or a view model
      * @param  null|array|\ArrayAccess Values to use during rendering
      * @return string The script output.
+     * @throws \Twig_Error_Loader
+     * @throws \Zend\View\Exception\DomainException
      */
     public function render($nameOrModel, $values = null)
     {
@@ -81,7 +84,7 @@ class Renderer extends PhpRenderer
 
             if (empty($nameOrModel)) {
                 throw new Exception\DomainException(sprintf(
-                                '%s: received View Model argument, but template is empty', __METHOD__
+                    '%s: received View Model argument, but template is empty', __METHOD__
                 ));
             }
 
@@ -107,7 +110,7 @@ class Renderer extends PhpRenderer
         $vars = $this->vars()->getArrayCopy();
         
         if (!$this->canRender($nameOrModel)) {
-            throw new \Twig_Error_Loader(sprintf('Unable to find template "%s".', $nameOrModel));
+            throw new Twig_Error_Loader(sprintf('Unable to find template "%s".', $nameOrModel));
         }
 
         return $this->getFilterChain()->filter($twig->render($nameOrModel, $vars));
@@ -148,5 +151,4 @@ class Renderer extends PhpRenderer
     {
         return $this->suffix;
     }
-
 }

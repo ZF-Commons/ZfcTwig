@@ -15,14 +15,14 @@ class Strategy implements ListenerAggregateInterface
     protected $listeners = array();
 
     /**
-     * @var \ZfcTwig\View\Renderer\Renderer
+     * @var \ZfcTwig\View\Renderer
      */
     protected $renderer;
 
     /**
      * Constructor
      *
-     * @param  \ZfcTwig\View\Renderer\Renderer $renderer
+     * @param  \ZfcTwig\View\Renderer $renderer
      * @return void
      */
     public function __construct(Renderer $renderer)
