@@ -3,79 +3,92 @@
 namespace ZfcTwig\Twig;
 
 use Twig_Environment;
-use ZfcTwig\Twig\Func\ViewHelper;
+use Twig_Error_Loader;
+use Twig_TemplateInterface;
 use Zend\View\HelperPluginManager;
 
 class Environment extends Twig_Environment
 {
     /**
-     * @var \Zend\View\HelperPluginManager
+     * @var HelperPluginManager
      */
-    protected $manager;
-    protected $php_fallback;
+    protected $helperPluginManager;
 
-    function __construct(\Twig_LoaderInterface $loader = null, $options = array())
+    /**
+     * @var string
+     */
+    protected $defaultSuffix = '.twig';
+
+    /**
+     * @param string $defaultSuffix
+     * @return Environment
+     */
+    public function setDefaultSuffix($defaultSuffix)
     {
-        parent::__construct($loader, $options);
-        $options = array_merge(array(
-            'allow_php_fallback' => false
-        ), $options);
-        $this->php_fallback = $options['allow_php_fallback'];
+        $this->defaultSuffix = $defaultSuffix;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultSuffix()
+    {
+        return $this->defaultSuffix;
+    }
+
+    /**
+     * Determines if a template is loadable by calling loadTemplate and catching
+     * exceptions.
+     *
+     * @param string $name
+     * @return boolean
+     */
+    public function canLoadTemplate($name)
+    {
+        try {
+            $this->loadTemplate($name);
+            return true;
+        } catch (Twig_Error_Loader $e) {
+            ; // intentionall left blank
+        }
+
+        return false;
+    }
+
+    /**
+     * Loads a template by name.
+     *
+     * @param string  $name  The template name
+     * @param integer $index The index if it is an embedded template
+     *
+     * @return Twig_TemplateInterface A template instance representing the given template name
+     */
+    public function loadTemplate($name, $index = null)
+    {
+        $ext = pathinfo($name, PATHINFO_EXTENSION);
+        if (empty($ext)) {
+            $name .= $this->getDefaultSuffix();
+        }
+
+        return parent::loadTemplate($name, $index);
+    }
+
+    /**
+     * @param HelperPluginManager $helperPluginManager
+     * @return Environment
+     */
+    public function setHelperPluginManager(HelperPluginManager $helperPluginManager)
+    {
+        $this->helperPluginManager = $helperPluginManager;
+        return $this;
     }
 
     /**
      * @return \Zend\View\HelperPluginManager
      */
-    public function manager()
+    public function getHelperPluginManager()
     {
-        return $this->manager;
-    }
-
-    /**
-     * @param $name string
-     */
-    public function plugin($name)
-    {
-        return $this->manager()->get($name);
-    }
-
-    /**
-     * @param \Zend\View\HelperPluginManager $manager
-     * @return Environment
-     */
-    public function setManager(HelperPluginManager $manager)
-    {
-        $this->manager = $manager;
-        return $this;
-    }
-
-    public function getFunction($name)
-    {
-        if (($function = parent::getFunction($name))) {
-            return $function;
-        }
-
-        try{
-            if ($this->plugin($name)){
-                $function = new ViewHelper($name);
-
-                $this->addFunction($name, $function);
-                return $function;
-            }
-        }catch(\Exception $exception){
-
-        }
-
-        if ($this->php_fallback){
-            $constructs = array('isset', 'empty');
-            $_name = $name;
-            if (function_exists($_name) || in_array($_name, $constructs)) {
-                $function = new \Twig_Function_Function($_name);
-                $this->addFunction($name, $function);
-                return $function;
-            }
-        }
-
-        return false;
+        return $this->helperPluginManager;
     }
 }
