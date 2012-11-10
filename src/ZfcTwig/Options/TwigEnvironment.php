@@ -39,13 +39,18 @@ class TwigEnvironment extends AbstractOptions
     protected $blacklist = array('.phtml');
 
     /**
+     * Specify whether or not to use the parent/child ViewModel style of
+     * ZF2 proper. If set to false, you should not use Twig's inheritance.
+     * @var bool
+     */
+    protected $disableZfModel = true;
+
+    /**
      * @param array $blacklist
-     * @return TwigEnvironment
      */
     public function setBlacklist($blacklist)
     {
         $this->blacklist = $blacklist;
-        return $this;
     }
 
     /**
@@ -58,12 +63,10 @@ class TwigEnvironment extends AbstractOptions
 
     /**
      * @param string $suffix
-     * @return TwigEnvironment
      */
     public function setSuffix($suffix)
     {
         $this->suffix = $suffix;
-        return $this;
     }
 
     /**
@@ -76,12 +79,10 @@ class TwigEnvironment extends AbstractOptions
 
     /**
      * @param $extensions
-     * @return TwigEnvironment
      */
     public function setExtensions($extensions)
     {
         $this->extensions = $extensions;
-        return $this;
     }
 
     /**
@@ -98,7 +99,6 @@ class TwigEnvironment extends AbstractOptions
     public function setEnvironment($environment)
     {
         $this->environment = $environment;
-        return $this;
     }
 
     /**
@@ -115,7 +115,6 @@ class TwigEnvironment extends AbstractOptions
     public function setLoaders($loaders)
     {
         $this->loaders = $loaders;
-        return $this;
     }
 
     /**
@@ -124,5 +123,21 @@ class TwigEnvironment extends AbstractOptions
     public function getLoaders()
     {
         return $this->loaders;
+    }
+
+    /**
+     * @param boolean $disableZfModel
+     */
+    public function setDisableZfModel($disableZfModel)
+    {
+        $this->disableZfModel = $disableZfModel;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getDisableZfModel()
+    {
+        return $this->disableZfModel;
     }
 }

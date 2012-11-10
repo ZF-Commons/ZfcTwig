@@ -15,17 +15,17 @@ class Module
     {
         $application    = $e->getApplication();
         $serviceManager = $application->getServiceManager();
-        $events         = $application->getEventManager();
-        $sharedEvents   = $events->getSharedManager();
 
+        /** @var $environment \ZfcTwig\Twig\Environment */
         $environment = $serviceManager->get('TwigEnvironment');
-        $vmListener  = new InjectViewModelListener($environment);
-        //$strategy    = new RenderingStrategy();
-        //$strategy->setEnvironment($environment);
+        if ($environment->getZfcTwigOptions()->getDisableZfModel()) {
+            $events       = $application->getEventManager();
+            $sharedEvents = $events->getSharedManager();
+            $vmListener   = new InjectViewModelListener($environment);
 
-        $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($vmListener, 'injectViewModel'), -99);
-        $sharedEvents->attach('Zend\Stdlib\DispatchableInterface', MvcEvent::EVENT_DISPATCH, array($vmListener, 'injectViewModel'), -99);
-        //$events->attach($strategy);
+            $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($vmListener, 'injectViewModel'), -99);
+            $sharedEvents->attach('Zend\Stdlib\DispatchableInterface', MvcEvent::EVENT_DISPATCH, array($vmListener, 'injectViewModel'), -99);
+        }
     }
 
     public function getServiceConfig()

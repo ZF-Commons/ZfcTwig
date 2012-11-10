@@ -6,6 +6,7 @@ use Twig_Environment;
 use Twig_Error_Loader;
 use Twig_TemplateInterface;
 use Zend\View\HelperPluginManager;
+use ZfcTwig\Options\TwigEnvironment as TwigEnvironmentOptions;
 
 class Environment extends Twig_Environment
 {
@@ -18,6 +19,11 @@ class Environment extends Twig_Environment
      * @var string
      */
     protected $defaultSuffix = '.twig';
+
+    /**
+     * @var array
+     */
+    protected $options = array();
 
     /**
      * @param string $defaultSuffix
@@ -90,5 +96,24 @@ class Environment extends Twig_Environment
     public function getHelperPluginManager()
     {
         return $this->helperPluginManager;
+    }
+
+    /**
+     * @param TwigEnvironmentOptions $options
+     */
+    public function setZfcTwigOptions(TwigEnvironmentOptions $options)
+    {
+        $this->options = $options;
+    }
+
+    /**
+     * @return TwigEnvironmentOptions
+     */
+    public function getZfcTwigOptions()
+    {
+        if (null === $this->options) {
+            $this->options = new TwigEnvironmentOptions();
+        }
+        return $this->options;
     }
 }

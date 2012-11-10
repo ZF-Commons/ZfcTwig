@@ -7,7 +7,7 @@ use Twig_Loader_Chain;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use ZfcTwig\Twig\Environment;
-use ZfcTwig\Twig\Fnction\ViewHelper;
+use ZfcTwig\Twig\Func\ViewHelper;
 use ZfcTwig\Options\TwigEnvironment as TwigEnvironmentOptions;
 
 class TwigEnvironmentFactory implements FactoryInterface
@@ -27,7 +27,7 @@ class TwigEnvironmentFactory implements FactoryInterface
         $helperManager = $serviceLocator->get('ViewHelperManager');
 
         $options = new TwigEnvironmentOptions($config);
-        $env     = new Environment(null, $options->getEnvironment());
+        $env     = new Environment(null, $options->getEnvironment(), $options);
 
         $env->setHelperPluginManager($helperManager);
 
@@ -65,6 +65,8 @@ class TwigEnvironmentFactory implements FactoryInterface
         });
 
         $env->setDefaultSuffix($options->getSuffix());
+        $env->setZfcTwigOptions($options);
+
         return $env;
     }
 }

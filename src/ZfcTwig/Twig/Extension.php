@@ -3,7 +3,7 @@
 namespace ZfcTwig\Twig;
 
 use Twig_Extension;
-use ZfcTwig\Twig\Fnction\ViewHelper;
+use ZfcTwig\Twig\Func\ViewHelper;
 
 class Extension extends Twig_Extension
 {

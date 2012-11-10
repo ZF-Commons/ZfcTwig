@@ -1,6 +1,6 @@
 <?php
 
-namespace ZfcTwig\Twig\Fnction;
+namespace ZfcTwig\Twig\Func;
 
 use Twig_Function;
 use Zend\View\Helper\HelperInterface;

@@ -12,6 +12,8 @@ return array(
         'loaders' => array(
             'TwigDefaultLoader'
         ),
+
+        'disable_zf_model' => false,
     ),
 
     'view_manager' => array(
