@@ -1,4 +1,4 @@
-# ZfcTwig
+# ZfcTwig Module for Zend Framework 2 [![Master Branch Build Status](https://secure.travis-ci.org/ZF-Commons/ZfcTwig.png?branch=master)](http://travis-ci.org/ZF-Commons/ZfcTwig)
 
 ZfcTwig is a module that integrates the [Twig](http://twig.sensiolabs.org) templating engine with
 [Zend Framework 2](http://framework.zend.com).
