@@ -2,7 +2,6 @@
 return array(
     'zfctwig' => array(
         'environment' => array(
-
         ),
 
         'extensions' => array(

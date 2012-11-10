@@ -7,6 +7,7 @@ use Zend\View\Model\ModelInterface;
 use Zend\View\Renderer\RendererInterface;
 use Zend\View\Resolver\ResolverInterface;
 use ZfcTwig\Twig\Environment;
+use ZfcTwig\View\Resolver\TwigResolver;
 
 class TwigRenderer implements RendererInterface
 {
@@ -16,11 +17,17 @@ class TwigRenderer implements RendererInterface
     protected $environment;
 
     /**
+     * @var TwigResolver
+     */
+    protected $resolver;
+
+    /**
      * @param Environment $environment
      */
-    public function __construct(Environment $environment)
+    public function __construct(Environment $environment, TwigResolver $resolver)
     {
         $this->environment = $environment;
+        $this->resolver    = $resolver;
     }
 
     /**
@@ -42,7 +49,7 @@ class TwigRenderer implements RendererInterface
      * phplib, etc, return the template engine object. Useful for calling
      * methods on these objects, such as for setting filters, modifiers, etc.
      *
-     * @return mixed
+     * @return Environment
      */
     public function getEngine()
     {
@@ -57,7 +64,7 @@ class TwigRenderer implements RendererInterface
      */
     public function setResolver(ResolverInterface $resolver)
     {
-        // TODO: Implement setResolver() method.
+        $this->resolver = $resolver;
     }
 
     /**
@@ -65,7 +72,8 @@ class TwigRenderer implements RendererInterface
      *
      * @param  string|ModelInterface   $nameOrModel The script/resource process, or a view model
      * @param  null|array|\ArrayAccess $values      Values to use during rendering
-     * @return string The script output.
+     * @return string|null The script output.
+     * @throws \Zend\View\Exception\DomainException
      */
     public function render($nameOrModel, $values = null)
     {
@@ -83,6 +91,10 @@ class TwigRenderer implements RendererInterface
             $vars = (array) $model->getVariables();
         }
 
-        return $this->getEngine()->render($nameOrModel, $vars);
+        $template = $this->resolver->resolve($nameOrModel, $this);
+        if ($template) {
+            return $template->render($vars);
+        }
+        return null;
     }
 }

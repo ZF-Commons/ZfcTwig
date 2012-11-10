@@ -33,33 +33,11 @@ class TwigEnvironment extends AbstractOptions
     protected $suffix = '.twig';
 
     /**
-     * An array of types to never render.
-     * @var array
-     */
-    protected $blacklist = array('.phtml');
-
-    /**
      * Specify whether or not to use the parent/child ViewModel style of
      * ZF2 proper. If set to false, you should not use Twig's inheritance.
      * @var bool
      */
     protected $disableZfModel = true;
-
-    /**
-     * @param array $blacklist
-     */
-    public function setBlacklist($blacklist)
-    {
-        $this->blacklist = $blacklist;
-    }
-
-    /**
-     * @return array
-     */
-    public function getBlacklist()
-    {
-        return $this->blacklist;
-    }
 
     /**
      * @param string $suffix

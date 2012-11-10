@@ -3,10 +3,10 @@
 namespace ZfcTwig;
 
 use Twig_Loader_Filesystem;
-use ZfcTwig\View\Renderer\TwigRenderer;
 use Zend\Mvc\MvcEvent;
 use ZfcTwig\View\InjectViewModelListener;
-use ZfcTwig\View\RenderingStrategy;
+use ZfcTwig\View\Renderer\TwigRenderer;
+use ZfcTwig\View\Resolver\TwigResolver;
 use ZfcTwig\View\Strategy\TwigStrategy;
 
 class Module
@@ -37,10 +37,10 @@ class Module
                     return new Twig_Loader_Filesystem('module/Application/view');
                 },
                 'TwigRenderer' => function($sm) {
-                    $config = $sm->get('Configuration');
-                    $config = isset($config['zfctwig']['renderer']) ? (array) $config['zfctwig']['renderer'] : array();
-
-                    return new TwigRenderer($sm->get('TwigEnvironment'), $config);
+                    return new TwigRenderer($sm->get('TwigEnvironment'), $sm->get('TwigResolver'));
+                },
+                'TwigResolver' => function($sm) {
+                    return new TwigResolver($sm->get('TwigEnvironment'));
                 },
                 'ViewTwigStrategy' => function($sm) {
                     $strategy = new TwigStrategy($sm->get('TwigRenderer'));

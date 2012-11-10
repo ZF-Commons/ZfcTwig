@@ -21,7 +21,7 @@ class TwigStrategy implements ListenerAggregateInterface
     protected $renderer;
 
     /**
-     * @param TwigRenderer $environment
+     * @param TwigRenderer $renderer
      */
     public function __construct(TwigRenderer $renderer)
     {
@@ -35,6 +35,7 @@ class TwigStrategy implements ListenerAggregateInterface
      * implementation will pass this to the aggregate.
      *
      * @param EventManagerInterface $events
+     * @param int $priority
      */
     public function attach(EventManagerInterface $events, $priority = 100)
     {
