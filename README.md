@@ -21,20 +21,20 @@ class.
 Extensions can be registered with Twig by adding the FQCN to the `extensions` configuration key which is exactly how the
 ZfcTwig extension is registered.
 
-     ```php
-     // in module configuration or autoload override
-     return array(
-         'zfctwig' => array(
-             'extensions' => array(
-                 // an extension that uses no key
-                 'My\Custom\Extension',
+```php
+// in module configuration or autoload override
+return array(
+    'zfctwig' => array(
+        'extensions' => array(
+            // an extension that uses no key
+            'My\Custom\Extension',
 
-                 // an extension with a key so that you can remove it from another module
-                 'my_custom_extension' => 'My\Custom\Extension'
-             )
-         )
-     );
-     ```
+            // an extension with a key so that you can remove it from another module
+            'my_custom_extension' => 'My\Custom\Extension'
+        )
+    )
+);
+```
 
 ### Configuring Twig loaders
 
@@ -43,47 +43,47 @@ a [filesystem loader](https://github.com/ZF-Commons/ZfcTwig/tree/master/Module.p
 `module/Application/view` which should work out of the box for most instances. If you wish to add additional loaders
 to the chain you can register them by adding the service manager alias to the `loaders` configuration key.
 
-     ```php
-     // in module configuration or autoload override
-     return array(
-         'zfctwig' => array(
-             'loaders' => array(
-                 'MyTwigFilesystemLoader'
-             )
-         )
-     );
+```php
+// in module configuration or autoload override
+return array(
+    'zfctwig' => array(
+        'loaders' => array(
+            'MyTwigFilesystemLoader'
+        )
+    )
+);
 
-     // in some module
-     public function getServiceConfiguration()
-     {
-         return array(
-             'factories' => array(
-                 'MyTwigFilesystemLoader' => function($sm) {
-                     return new \Twig_Loader_Filesystem('my/custom/twig/path');
-                 }
-             )
-         );
-     }
-     ```
+// in some module
+public function getServiceConfiguration()
+{
+    return array(
+        'factories' => array(
+            'MyTwigFilesystemLoader' => function($sm) {
+                return new \Twig_Loader_Filesystem('my/custom/twig/path');
+            }
+        )
+    );
+}
+```
 
 ### Using ZF2 View Helpers
 
 Using ZF2 view helpers is supported through the [ZfcTwig\Twig\Func\ViewHelper](https://github.com/ZF-Commons/ZfcTwig/tree/master/src/ZfcTwig/Twig/Func/ViewHelper.php)
 function.
 
-     ```twig
-     {# Simple view helper echo #}
-     {{ docType() }}
+```twig
+{# Simple view helper echo #}
+{{ docType() }}
 
-     {# Echo with additional methods #}
-     {{ headTitle('My Company').setSeparator('-') }}
+{# Echo with additional methods #}
+{{ headTitle('My Company').setSeparator('-') }}
 
-     {# Using a view helper without an echo #}
-     {% do headTitle().setSeparator('-') %}
+{# Using a view helper without an echo #}
+{% do headTitle().setSeparator('-') %}
 
-     {# Combining view helpers #}
-     {% set url = ( url('my/custom/route') ) %}
-     ```
+{# Combining view helpers #}
+{% set url = ( url('my/custom/route') ) %}
+```
 
 # Examples
 
