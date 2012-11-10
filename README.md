@@ -10,78 +10,82 @@ ZfcTwig is a module that integrates the [Twig](http://twig.sensiolabs.org) templ
 
 ## Configuration
 
-ZfcTwig has sane defaults out of the box but offers optional configuration via the `zfctwig` configuration key.
-
-    `config` - passed directly to the Twig_Environment class. 
-             - Added `allow_php_fallback` to allow fallback to php functions if the called function was not found.
-               Active by default.
-    `suffix` - the suffix to use for Twig templates, default is .twig.
-    
-ZfcTwig integrates with the View Manager service and uses the same resolvers defined within that service. 
-This allows you to define the template path stacks and maps within the view manager without having to set them again
-when installing the module:
-
-    'view_manager' => array(
-        'template_path_stack'   => array(
-            'application'              => __DIR__ . '/../views',
-        ),
-        'template_map' => array(
-            'layouts/layout'    => __DIR__ . '/../views/layouts/layout.twig',
-            'index/index'       => __DIR__ . '/../views/application/index/index.twig',
-        ),
-    ), 
+ZfcTwig has sane defaults out of the box but offers optional configuration via the `zfctwig` configuration key. For
+detailed information on all available options see the [ZfcTwig\Options\TwigEnvironment](https://github.com/ZF-Commons/ZfcTwig/tree/master/src/ZfcTwig/Options/TwigEnvironment.php)
+class.
 
 ## Documentation
 
+### Setting up Twig extensions
 
-### View Helpers
+Extensions can be registered with Twig by adding the FQCN to the `extensions` configuration key which is exactly how the
+ZfcTwig extension is registered.
 
-Any command from the original Twig library should work and also added support for Zend View helpers as functions and
-PHP functions as a fallback.
+    ```php
+    // in module configuration or autoload override
+    return array(
+        'zfctwig' => array(
+            'extensions' => array(
+                // an extension that uses no key
+                'My\Custom\Extension',
 
-To use Zend View helpers you just need to invoke them as a function:
+                // an extension with a key so that you can remove it from another module
+                'my_custom_extension' => 'My\Custom\Extension'
+            )
+        )
+    );
+    ```
 
-    {{ headTitle() }}
+### Configuring Twig loaders
 
-In case you just want to execute a view helper without rendering it you can use the twig `do` tag:
+By default, ZfcTwig uses a Twig_Loader_Chain so that loaders can be chained together. A convenient default is setup using
+a [filesystem loader](https://github.com/ZF-Commons/ZfcTwig/tree/master/Module.php#L36) with the path set to
+`module/Application/view` which should work out of the box for most instances. If you wish to add additional loaders
+to the chain you can register them by adding the service manager alias to the `loaders` configuration key.
 
-    {% do headTitle('My awesome rendered title') %}
+    ```php
+        // in module configuration or autoload override
+        return array(
+            'zfctwig' => array(
+                'loaders' => array(
+                    'MyTwigFilesystemLoader'
+                )
+            )
+        );
 
-For an advanced case you can combine view helpers together like:
+        // in some module
+        public function getServiceConfiguration()
+        {
+            return array(
+                'factories' => array(
+                    'MyTwigFilesystemLoader' => function($sm) {
+                        return new \Twig_Loader_Filesystem('my/custom/twig/path');
+                    }
+                )
+            );
+        }
+    ```
 
-    {% do form.setAttribute('action', ( url('/events/add') ) ) %}
+### Using ZF2 View Helpers
 
-### Extensions
+Using ZF2 view helpers is supported through the [ZfcTwig\Twig\Func\ViewHelper](https://github.com/ZF-Commons/ZfcTwig/tree/master/src/ZfcTwig/Twig/Func/ViewHelper.php)
+function.
 
-The module adds two extension tags:
-    
-1. A tag for rendering a controller action:
+    ```twig
+    {# Simple view helper echo #}
+    {{ docType() }}
 
-    ```{% render "core-index:index" with {'param1':1} %}```
-    
-    The above code will call the `indexAction` from the `core-index` controller as defined in the ControllerLoader service.
-    Optionally you can also specify different parameters to send to the processed action which can later be retrieved from the matched route.
+    {# Echo with additional methods #}
+    {{ headTitle('My Company').setSeparator('-') }}
 
-2. A tag for triggering an event on the renderer that is similar to the above syntax:
+    {# Using a view helper without an echo #}
+    {% do headTitle().setSeparator('-') %}
 
-    ```{% trigger "alias:myEvent" on myObject with {'param1':1} %}```
-    
-    Both the target object and parameters are optional. The result of each listener is converted to string and rendered instead of the definition. If the above alias is not specified then it will default to `zfc-twig`.
-   
-### Namespaces
-
-The module supports [namespaces](http://twig.sensiolabs.org/doc/api.html#built-in-loaders) which can be configured using the `namespaces` configuration key:
-
-    'zfctwig' => array(
-        'namespaces' => array(
-            'admin'     => __DIR__ . '/../views/admin',
-            'frontend'  => __DIR__ . '/../views/frontend',
-        ),
-    ),
-
-When using a namespace the views will only be resolved to the specified namespace folder and not fallback to the View Manager resolver
+    {# Combining view helpers #}
+    {% set url = ( url('my/custom/route') ) %}
+    ```
 
 # Examples
 
-Example .twig files for the skeleton application can be found in the
-[examples](https://github.com/ZF-Commons/ZfcTwig/tree/master/examples) folder.
+Example .twig files for the skeleton application can be found in the [examples](https://github.com/ZF-Commons/ZfcTwig/tree/master/examples)
+folder.
