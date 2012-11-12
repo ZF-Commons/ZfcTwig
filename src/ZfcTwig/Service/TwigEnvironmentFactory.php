@@ -24,7 +24,7 @@ class TwigEnvironmentFactory implements FactoryInterface
         $config  = $config['zfctwig'];
 
         /** @var $helperManager \Zend\View\HelperPluginManager */
-        $helperManager = $serviceLocator->get('ViewHelperManager');
+        $helperManager = clone $serviceLocator->get('ViewHelperManager');
 
         $options = new TwigEnvironmentOptions($config);
         $env     = new Environment(null, $options->getEnvironment(), $options);
