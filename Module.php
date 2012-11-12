@@ -33,9 +33,7 @@ class Module
         return array(
             'factories' => array(
                 'TwigEnvironment' => 'ZfcTwig\Service\TwigEnvironmentFactory',
-                'TwigDefaultLoader' => function() {
-                    return new Twig_Loader_Filesystem('module/Application/view');
-                },
+                'TwigDefaultLoader' => 'ZfcTwig\Service\TwigDefaultLoaderFactory',
                 'TwigRenderer' => function($sm) {
                     return new TwigRenderer($sm->get('TwigEnvironment'), $sm->get('TwigResolver'));
                 },
