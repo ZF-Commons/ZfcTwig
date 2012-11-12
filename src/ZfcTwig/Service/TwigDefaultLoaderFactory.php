@@ -21,7 +21,9 @@ class TwigDefaultLoaderFactory implements FactoryInterface
         $loader        = new Twig_Loader_Filesystem('module/Application/view');
 
         foreach($templateStack->getPaths() as $path) {
-            $loader->addPath($path);
+            if (file_exists($path)) {
+                $loader->addPath($path);
+            }
         }
 
         return $loader;
