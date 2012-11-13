@@ -28,9 +28,6 @@
     "autoload": {
         "psr-0": {
             "ZfcTwig\\": "src/"
-        },
-        "classmap": [
-            "./"
-        ]
+        }
     }
 }
