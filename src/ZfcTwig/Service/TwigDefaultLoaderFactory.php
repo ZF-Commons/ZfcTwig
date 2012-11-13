@@ -2,9 +2,11 @@
 
 namespace ZfcTwig\Service;
 
-use Zend\ServiceManager\FactoryInterface;
+use Twig_Loader_Chain;
 use Twig_Loader_Filesystem;
+use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use ZfcTwig\Twig\Loader\TemplateMap;
 
 class TwigDefaultLoaderFactory implements FactoryInterface
 {
@@ -18,19 +20,25 @@ class TwigDefaultLoaderFactory implements FactoryInterface
     {
         /** @var $templateStack \Zend\View\Resolver\TemplatePathStack */
         $templateStack = $serviceLocator->get('ViewTemplatePathStack');
-        $loader        = new Twig_Loader_Filesystem($templateStack->getPaths()->toArray());
+        $config        = $serviceLocator->get('Configuration');
+        $config        = $config['zfctwig'];
+
+        $chain       = new Twig_Loader_Chain();
+        $filesystem  = new Twig_Loader_Filesystem($templateStack->getPaths()->toArray());
+        $templateMap = new TemplateMap();
 
         /** @var \Zend\View\Resolver\TemplateMapResolver */
-        $templateMap = $serviceLocator->get('ViewTemplateMapResolver');
-        $config      = $serviceLocator->get('Configuration');
-        $config      = $config['zfctwig'];
+        $zfTemplateMap = $serviceLocator->get('ViewTemplateMapResolver');
 
-        foreach($templateMap as $file) {
-            if ($config['suffix'] == pathinfo($file, PATHINFO_EXTENSION)) {
-                $loader->addPath(dirname($file));
+        foreach($zfTemplateMap as $name => $path) {
+            if ($config['suffix'] == pathinfo($path, PATHINFO_EXTENSION)) {
+                $templateMap->add($name . '.' . $config['suffix'], $path);
             }
         }
 
-        return $loader;
+        $chain->addLoader($filesystem);
+        $chain->addLoader($templateMap);
+
+        return $chain;
     }
 }
