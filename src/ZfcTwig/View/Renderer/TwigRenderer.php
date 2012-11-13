@@ -130,6 +130,7 @@ class TwigRenderer implements RendererInterface
      */
     public function plugin($name, array $options = null)
     {
+        $this->getHelperPluginManager()->setRenderer($this);
         return $this->getHelperPluginManager()->get($name, $options);
     }
 

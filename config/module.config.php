@@ -30,6 +30,12 @@ return array(
         'suffix' => '.twig',
 
         /**
+         * When enabled, the ZF2 view helpers will get pulled using a fallback renderer. This will
+         * slightly degrade performance but must be used if you plan on using any of ZF2's view helpers.
+         */
+        'enable_fallback_functions' => true,
+
+        /**
          * If set to true disables ZF's notion of parent/child layouts in favor of
          * Twig's inheritance model.
          */

@@ -2,47 +2,32 @@
 
 namespace ZfcTwig\Twig\Extension;
 
-use Twig_Environment;
 use Twig_Extension;
-use Zend\View\HelperPluginManager;
-use ZfcTwig\Twig\Func\ViewHelper;
+use ZfcTwig\View\Renderer\TwigRenderer;
 
 class ZfcTwig extends Twig_Extension
 {
     /**
-     * @var HelperPluginManager
+     * @var TwigRenderer
      */
-    protected $helperPluginManager;
-
-    public function __construct(HelperPluginManager $helperPluginManager)
-    {
-        $this->helperPluginManager = $helperPluginManager;
-    }
+    protected $renderer;
 
     /**
-     * Initializes the runtime environment.
+     * Constructor.
      *
-     * This is where you can load some file that contains filter functions for instance.
-     *
-     * @param Twig_Environment $environment The current Twig_Environment instance
+     * @param TwigRenderer $helperPluginManager
      */
-    public function initRuntime(Twig_Environment $environment)
+    public function __construct(TwigRenderer $renderer)
     {
-        $helperPluginmanager = $this->helperPluginManager;
-        $environment->registerUndefinedFunctionCallback(function($name) use ($helperPluginmanager) {
-            if ($helperPluginmanager->has($name)) {
-                return new ViewHelper($name);
-            }
-            return null;
-        });
+        $this->renderer = $renderer;
     }
 
     /**
      * @return \Zend\View\HelperPluginManager
      */
-    public function getHelperPluginManager()
+    public function getRenderer()
     {
-        return $this->helperPluginManager;
+        return $this->renderer;
     }
 
     /**
@@ -53,25 +38,5 @@ class ZfcTwig extends Twig_Extension
     public function getName()
     {
         return 'zfc-twig';
-    }
-
-    /**
-     * Returns a list of functions to add to the existing list.
-     *
-     * @return array An array of functions
-     */
-    public function getFunctions()
-    {
-        return array();
-    }
-
-    /**
-     * Returns the token parser instances to add to the existing list.
-     *
-     * @return array An array of Twig_TokenParserInterface or Twig_TokenParserBrokerInterface instances
-     */
-    public function getTokenParsers()
-    {
-        return array();
     }
 }

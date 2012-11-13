@@ -22,21 +22,6 @@ class TwigEnvironmentFactory implements FactoryInterface
         $config  = $config['zfctwig'];
         $env     = new Twig_Environment(null, (array) $config['environment']);
 
-        // Setup extensions
-        foreach((array) $config['extensions'] as $extension) {
-            if (is_string($extension)) {
-                if ($serviceLocator->has($extension)) {
-                    $extension = $serviceLocator->get($extension);
-                } else {
-                    $extension = new $extension();
-                }
-            } else if (!is_object($extension)) {
-                throw new InvalidArgumentException('Extensions should be a string or object.');
-            }
-
-            $env->addExtension($extension);
-        }
-
         // Setup loader
         $loaderChain = new Twig_Loader_Chain();
 
@@ -48,6 +33,8 @@ class TwigEnvironmentFactory implements FactoryInterface
         }
 
         $env->setLoader($loaderChain);
+
+        // Extensions are loaded later to avoid circular dependencies (for example, if an extension needs Renderer).
 
         return $env;
     }
