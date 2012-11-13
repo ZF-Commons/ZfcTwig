@@ -2,13 +2,19 @@
 
 namespace ZfcTwig\Service;
 
-use ZfcTwig\View\Renderer;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Resolver\TemplatePathStack;
+use ZfcTwig\View\Renderer;
 
+/**
+ * Twig View Renderer Factory
+ */
 class ViewRendererFactory implements FactoryInterface
 {
+    /**
+     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     * @return \ZfcTwig\View\Renderer
+     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('Configuration');
@@ -19,9 +25,9 @@ class ViewRendererFactory implements FactoryInterface
         $renderer->setSuffix(isset($config['suffix']) ? $config['suffix'] : 'twig');
 
         $engine = $serviceLocator->get('TwigEnvironment');
-        $renderer->setHelperPluginManager($engine->manager());
+        $renderer->setHelperPluginManager($engine->getManager());
         $renderer->setEngine($engine);
-        $renderer->setResolver($serviceLocator->get('TwigResolver'));
+        $renderer->setResolver($serviceLocator->get('TwigViewResolver'));
 
         return $renderer;
     }

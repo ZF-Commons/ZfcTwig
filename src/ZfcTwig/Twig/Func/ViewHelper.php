@@ -3,12 +3,17 @@
 namespace ZfcTwig\Twig\Func;
 
 use Twig_Function;
-use Twig_Node;
 
 class ViewHelper extends Twig_Function
 {
+    /**
+     * @var string
+     */
     protected $name;
 
+    /**
+     * @param string $name
+     */
     public function __construct($name)
     {
         $this->name = $name;
@@ -21,7 +26,7 @@ class ViewHelper extends Twig_Function
      *
      * @return string The PHP code for the function
      */
-    function compile()
+    public function compile()
     {
         $name = preg_replace('#[^a-z0-9]+#i', '', $this->name);
         return sprintf("\$this->env->plugin('%s')->__invoke", $name);

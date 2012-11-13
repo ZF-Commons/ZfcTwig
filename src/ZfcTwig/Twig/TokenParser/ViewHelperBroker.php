@@ -24,6 +24,10 @@ class ViewHelperBroker extends Twig_TokenParserBroker
      */
     protected $viewHelperParser;
 
+    /**
+     * @param \ZfcTwig\Twig\Environment $environment
+     * @param \ZfcTwig\Twig\TokenParser\ViewHelperParser $viewHelperParser
+     */
     public function __construct(Environment $environment, ViewHelperParser $viewHelperParser)
     {
         $this->environment      = $environment;
@@ -34,7 +38,6 @@ class ViewHelperBroker extends Twig_TokenParserBroker
      * Gets a TokenParser suitable for a tag.
      *
      * @param string $tag A tag name
-     *
      * @return null|\Twig_TokenParserInterface A Twig_TokenParserInterface or null if no suitable TokenParser was found
      */
     public function getTokenParser($tag)
@@ -49,6 +52,7 @@ class ViewHelperBroker extends Twig_TokenParserBroker
      * Calls Twig_TokenParserInterface::setParser on all parsers the implementation knows of.
      *
      * @param Twig_ParserInterface $parser A Twig_ParserInterface interface
+     * @return \ZfcTwig\Twig\TokenParser\ViewHelperBroker
      */
     public function setParser(Twig_ParserInterface $parser)
     {

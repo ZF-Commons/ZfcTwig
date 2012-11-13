@@ -12,7 +12,7 @@ return array(
 
         ),
         'namespaces' => array(
-            
+
         ),
     ),
     'view_manager' => array(

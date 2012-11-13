@@ -102,10 +102,10 @@ class Renderer extends PhpRenderer
         if (null !== $values) {
             $this->setVars($values);
         }
-        
+
         $twig = $this->getEngine();
         $vars = $this->vars()->getArrayCopy();
-        
+
         if (!$this->canRender($nameOrModel)) {
             throw new \Twig_Error_Loader(sprintf('Unable to find template "%s".', $nameOrModel));
         }

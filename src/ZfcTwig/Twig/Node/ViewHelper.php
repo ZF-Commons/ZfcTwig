@@ -7,6 +7,9 @@ use Twig_Node;
 
 class ViewHelper extends Twig_Node
 {
+    /**
+     * {@inheritDoc}
+     */
     public function compile(Twig_Compiler $compiler)
     {
         $compiler->addDebugInfo($this)

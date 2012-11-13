@@ -17,6 +17,9 @@ class Extension extends Twig_Extension
      */
     protected $env;
 
+    /**
+     * @var array
+     */
     protected $helpers = array();
 
     public function __construct(Environment $env, $serviceLocator = null)
@@ -28,6 +31,9 @@ class Extension extends Twig_Extension
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getTokenParsers()
     {
         $broker = new ViewHelperBroker($this->env, new ViewHelperParser);
@@ -39,6 +45,9 @@ class Extension extends Twig_Extension
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getHelper($name)
     {
         if (isset($this->helpers[$name])){
@@ -49,9 +58,7 @@ class Extension extends Twig_Extension
     }
 
     /**
-     * Returns the name of the extension.
-     *
-     * @return string The extension name
+     * {@inheritDoc}
      */
     public function getName()
     {

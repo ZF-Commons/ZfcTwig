@@ -12,31 +12,40 @@ class Environment extends Twig_Environment
      * @var \Zend\View\HelperPluginManager
      */
     protected $manager;
-    protected $php_fallback;
 
-    function __construct(\Twig_LoaderInterface $loader = null, $options = array())
+    /**
+     * @var boolean
+     */
+    protected $allowPhpFallback;
+
+    public function __construct(\Twig_LoaderInterface $loader = null, $options = array())
     {
         parent::__construct($loader, $options);
-        $options = array_merge(array(
+
+        $defaults = array(
             'allow_php_fallback' => false
-        ), $options);
-        $this->php_fallback = $options['allow_php_fallback'];
+        );
+
+        $options = array_merge($defaults, $options);
+
+        $this->allowPhpFallback = (bool)$options['allow_php_fallback'];
     }
 
     /**
      * @return \Zend\View\HelperPluginManager
      */
-    public function manager()
+    public function getManager()
     {
         return $this->manager;
     }
 
     /**
      * @param $name string
+     * @return object
      */
     public function plugin($name)
     {
-        return $this->manager()->get($name);
+        return $this->getManager()->get($name);
     }
 
     /**
@@ -49,6 +58,10 @@ class Environment extends Twig_Environment
         return $this;
     }
 
+    /**
+     * @param string $name
+     * @return \ZfcTwig\Twig\Func\ViewHelper|\Twig_Function_Function|boolean
+     */
     public function getFunction($name)
     {
         if (($function = parent::getFunction($name))) {
@@ -58,7 +71,6 @@ class Environment extends Twig_Environment
         try{
             if ($this->plugin($name)){
                 $function = new ViewHelper($name);
-
                 $this->addFunction($name, $function);
                 return $function;
             }
@@ -66,11 +78,10 @@ class Environment extends Twig_Environment
 
         }
 
-        if ($this->php_fallback){
+        if ($this->allowPhpFallback){
             $constructs = array('isset', 'empty');
-            $_name = $name;
-            if (function_exists($_name) || in_array($_name, $constructs)) {
-                $function = new \Twig_Function_Function($_name);
+            if (function_exists($name) || in_array($name, $constructs)) {
+                $function = new \Twig_Function_Function($name);
                 $this->addFunction($name, $function);
                 return $function;
             }

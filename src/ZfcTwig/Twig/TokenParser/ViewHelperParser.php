@@ -10,10 +10,7 @@ use ZfcTwig\Twig\Node\ViewHelperExpression;
 class ViewHelperParser extends Twig_TokenParser
 {
     /**
-     * Parse a ViewHelper token which is of the form `ViewHelper(arguments)[.exprNode([arguments])]`.
-     *
-     * @param \Twig_Token $token
-     * @return \ZfcTwig\Twig\Node\ViewHelper
+     * {@inheritDoc}
      */
     public function parse(Twig_Token $token)
     {
@@ -32,6 +29,9 @@ class ViewHelperParser extends Twig_TokenParser
         return new ViewHelper(array('expression' => $exprNode), array(), $token->getLine(), $this->getTag());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getTag()
     {
         return 'ZendViewHelper';

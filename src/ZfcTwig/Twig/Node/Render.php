@@ -7,6 +7,9 @@ use Twig_Compiler as Compiler;
 
 class Render extends Twig_Node
 {
+    /**
+     * {@inheritDoc}
+     */
     public function __construct(Expression $expr, Expression $attributes, Expression $options, $lineno, $tag = null)
     {
         parent::__construct(
@@ -18,6 +21,9 @@ class Render extends Twig_Node
             array(), $lineno, $tag);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function compile(Compiler $compiler)
     {
         $compiler
