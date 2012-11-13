@@ -3,7 +3,6 @@
 namespace ZfcTwig\View\Renderer;
 
 use Twig_Environment;
-use Twig_Error_Loader;
 use Zend\View\Exception;
 use Zend\View\HelperPluginManager;
 use Zend\View\Model\ModelInterface;
@@ -30,11 +29,6 @@ class TwigRenderer implements RendererInterface
     protected $resolver;
 
     /**
-     * @var string
-     */
-    protected $defaultSuffix = '.twig';
-
-    /**
      * @param Twig_Environment $environment
      */
     public function __construct(Twig_Environment $environment, TwigResolver $resolver)
@@ -43,41 +37,9 @@ class TwigRenderer implements RendererInterface
         $this->resolver    = $resolver;
     }
 
-    /**
-     * Gets the canonical name.
-     *
-     * @param string $name
-     * @return string
-     */
-    public function getCanonicalName($name)
-    {
-        $ext = pathinfo($name, PATHINFO_EXTENSION);
-        if (empty($ext)) {
-            $name .= '.' . $this->getDefaultSuffix();
-        }
-        return $name;
-    }
 
     /**
-     * @param string $defaultSuffix
-     * @return TwigRenderer
-     */
-    public function setDefaultSuffix($defaultSuffix)
-    {
-        $this->defaultSuffix = $defaultSuffix;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDefaultSuffix()
-    {
-        return $this->defaultSuffix;
-    }
-
-    /**
-     * Proxy to \ZfcTwig\Twig\Environment::canLoadTemplate();
+     * Can the template be rendered?
      *
      * @param string $name
      * @return bool
@@ -85,14 +47,7 @@ class TwigRenderer implements RendererInterface
      */
     public function canRender($name)
     {
-        try {
-            $this->environment->loadTemplate($this->getCanonicalName($name));
-            return true;
-        } catch (Twig_Error_Loader $e) {
-            ; // intentionall left blank
-        }
-
-        return false;
+        return $this->resolver->resolve($name, $this);
     }
 
     /**
@@ -178,7 +133,7 @@ class TwigRenderer implements RendererInterface
             $vars = (array) $model->getVariables();
         }
 
-        $template = $this->resolver->resolve($this->getCanonicalName($nameOrModel), $this);
+        $template = $this->resolver->resolve($nameOrModel, $this);
         if ($template) {
             return $template->render($vars);
         }

@@ -16,16 +16,12 @@ class TwigRendererFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->get('Configuration');
-        $config = $config['zfctwig'];
-
         $renderer = new TwigRenderer(
             $serviceLocator->get('ZfcTwigEnvironment'),
             $serviceLocator->get('ZfcTwigResolver')
         );
 
         $renderer->setHelperPluginManager($serviceLocator->get('ZfcTwigViewHelperManager'));
-        $renderer->setDefaultSuffix($config['suffix']);
 
         return $renderer;
     }

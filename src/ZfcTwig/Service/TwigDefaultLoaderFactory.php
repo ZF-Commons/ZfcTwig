@@ -3,10 +3,10 @@
 namespace ZfcTwig\Service;
 
 use Twig_Loader_Chain;
-use Twig_Loader_Filesystem;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use ZfcTwig\Twig\Loader\TemplateMap;
+use ZfcTwig\Twig\Loader\TemplatePathStack;
 
 class TwigDefaultLoaderFactory implements FactoryInterface
 {
@@ -24,7 +24,7 @@ class TwigDefaultLoaderFactory implements FactoryInterface
         $config        = $config['zfctwig'];
 
         $chain       = new Twig_Loader_Chain();
-        $filesystem  = new Twig_Loader_Filesystem($templateStack->getPaths()->toArray());
+        $filesystem  = new TemplatePathStack($templateStack->getPaths()->toArray());
         $templateMap = new TemplateMap();
 
         /** @var \Zend\View\Resolver\TemplateMapResolver */
@@ -32,7 +32,7 @@ class TwigDefaultLoaderFactory implements FactoryInterface
 
         foreach($zfTemplateMap as $name => $path) {
             if ($config['suffix'] == pathinfo($path, PATHINFO_EXTENSION)) {
-                $templateMap->add($name . '.' . $config['suffix'], $path);
+                $templateMap->add($name, $path);
             }
         }
 
