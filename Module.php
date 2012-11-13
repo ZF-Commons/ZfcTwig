@@ -2,10 +2,8 @@
 
 namespace ZfcTwig;
 
-use Twig_Loader_Filesystem;
 use Zend\Mvc\MvcEvent;
 use ZfcTwig\View\InjectViewModelListener;
-use ZfcTwig\View\Renderer\TwigRenderer;
 use ZfcTwig\View\Resolver\TwigResolver;
 use ZfcTwig\View\Strategy\TwigStrategy;
 
@@ -16,12 +14,13 @@ class Module
         $application    = $e->getApplication();
         $serviceManager = $application->getServiceManager();
 
-        /** @var $environment \ZfcTwig\Twig\Environment */
-        $environment = $serviceManager->get('TwigEnvironment');
-        if ($environment->getZfcTwigOptions()->getDisableZfModel()) {
+        $config = $serviceManager->get('Configuration');
+        $config = $config['zfctwig'];
+
+        if ($config['disable_zf_model']) {
             $events       = $application->getEventManager();
             $sharedEvents = $events->getSharedManager();
-            $vmListener   = new InjectViewModelListener($environment);
+            $vmListener   = new InjectViewModelListener($serviceManager->get('ZfcTwigRenderer'));
 
             $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($vmListener, 'injectViewModel'), -99);
             $sharedEvents->attach('Zend\Stdlib\DispatchableInterface', MvcEvent::EVENT_DISPATCH, array($vmListener, 'injectViewModel'), -99);
@@ -32,16 +31,21 @@ class Module
     {
         return array(
             'factories' => array(
-                'TwigEnvironment' => 'ZfcTwig\Service\TwigEnvironmentFactory',
-                'TwigDefaultLoader' => 'ZfcTwig\Service\TwigDefaultLoaderFactory',
-                'TwigRenderer' => function($sm) {
-                    return new TwigRenderer($sm->get('TwigEnvironment'), $sm->get('TwigResolver'));
+                'ZfcTwigEnvironment' => 'ZfcTwig\Service\TwigEnvironmentFactory',
+                'ZfcTwigExtension' => 'ZfcTwig\Service\TwigExtensionFactory',
+                'ZfcTwigDefaultLoader' => 'ZfcTwig\Service\TwigDefaultLoaderFactory',
+                'ZfcTwigRenderer' => 'ZfcTwig\Service\TwigRendererFactory',
+                'ZfcTwigResolver' => function($sm) {
+                    return new TwigResolver($sm->get('ZfcTwigEnvironment'));
                 },
-                'TwigResolver' => function($sm) {
-                    return new TwigResolver($sm->get('TwigEnvironment'));
+                'ZfcTwigViewHelperManager' => function($sm) {
+                    // Clone the ViewHelperManager because each plugin has its own view instance.
+                    // If we don't clone it then the ViewHelpers use PhpRenderer.
+                    // This should really be changed in ZF Proper to call the event to determine which Renderer to use.
+                    return clone $sm->get('ViewHelperManager');
                 },
-                'ViewTwigStrategy' => function($sm) {
-                    $strategy = new TwigStrategy($sm->get('TwigRenderer'));
+                'ZfcTwigViewStrategy' => function($sm) {
+                    $strategy = new TwigStrategy($sm->get('ZfcTwigRenderer'));
                     return $strategy;
                 }
             )

@@ -5,15 +5,19 @@ return array(
         ),
 
         'extensions' => array(
-            'zfctwig' => 'ZfcTwig\Twig\Extension'
+            'zfctwig' => 'ZfcTwigExtension'
         ),
 
         'loaders' => array(
-            'TwigDefaultLoader'
+            'ZfcTwigDefaultLoader'
         ),
+
+        'suffix' => '.twig',
+
+        'disable_zf_model' => true
     ),
 
     'view_manager' => array(
-        'strategies' => array('ViewTwigStrategy')
+        'strategies' => array('ZfcTwigViewStrategy')
     )
 );

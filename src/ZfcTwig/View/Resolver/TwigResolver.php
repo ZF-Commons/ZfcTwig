@@ -2,7 +2,7 @@
 
 namespace ZfcTwig\View\Resolver;
 
-use ZfcTwig\Twig\Environment;
+use Twig_Environment;
 use ZfcTwig\View\Renderer\TwigRenderer;
 use Zend\View\Resolver\ResolverInterface;
 use Zend\View\Renderer\RendererInterface as Renderer;
@@ -10,11 +10,11 @@ use Zend\View\Renderer\RendererInterface as Renderer;
 class TwigResolver implements ResolverInterface
 {
     /**
-     * @var Environment
+     * @var Twig_Environment
      */
     protected $environment;
 
-    public function __construct(Environment $environment)
+    public function __construct(Twig_Environment $environment)
     {
         $this->environment = $environment;
     }

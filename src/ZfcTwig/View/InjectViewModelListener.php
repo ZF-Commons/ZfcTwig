@@ -5,21 +5,21 @@ namespace ZfcTwig\View;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\View\Http\InjectViewModelListener as ParentListener;
 use Zend\View\Model\ViewModel;
-use ZfcTwig\Twig\Environment;
+use ZfcTwig\View\Renderer\TwigRenderer;
 
 class InjectViewModelListener extends ParentListener
 {
     /**
-     * @var Environment
+     * @var TwigRenderer
      */
-    protected $environment;
+    protected $renderer;
 
     /**
-     * @param Environment $environment
+     * @param TwigRenderer $renderer
      */
-    public function __construct(Environment $environment)
+    public function __construct(TwigRenderer $renderer)
     {
-        $this->environment = $environment;
+        $this->renderer = $renderer;
     }
 
     /**
@@ -40,7 +40,7 @@ class InjectViewModelListener extends ParentListener
 
         // If we can render then replace view model with current.
         // This eliminates the inheritance model of ZF2.
-        if ($this->environment->canLoadTemplate($result->getTemplate())) {
+        if ($this->renderer->canRender($result->getTemplate())) {
             $e->setViewModel($result);
             $e->setResult(null);
         }

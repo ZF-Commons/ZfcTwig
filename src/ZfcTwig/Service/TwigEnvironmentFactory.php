@@ -3,12 +3,10 @@
 namespace ZfcTwig\Service;
 
 use InvalidArgumentException;
+use Twig_Environment;
 use Twig_Loader_Chain;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use ZfcTwig\Twig\Environment;
-use ZfcTwig\Twig\Func\ViewHelper;
-use ZfcTwig\Options\TwigEnvironment as TwigEnvironmentOptions;
 
 class TwigEnvironmentFactory implements FactoryInterface
 {
@@ -22,22 +20,15 @@ class TwigEnvironmentFactory implements FactoryInterface
     {
         $config  = $serviceLocator->get('Configuration');
         $config  = $config['zfctwig'];
-
-        /** @var $helperManager \Zend\View\HelperPluginManager */
-        $helperManager = clone $serviceLocator->get('ViewHelperManager');
-
-        $options = new TwigEnvironmentOptions($config);
-        $env     = new Environment(null, $options->getEnvironment(), $options);
-
-        $env->setHelperPluginManager($helperManager);
+        $env     = new Twig_Environment(null, (array) $config['environment']);
 
         // Setup extensions
-        foreach($options->getExtensions() as $extension) {
+        foreach((array) $config['extensions'] as $extension) {
             if (is_string($extension)) {
                 if ($serviceLocator->has($extension)) {
                     $extension = $serviceLocator->get($extension);
                 } else {
-                    $extension = new $extension;
+                    $extension = new $extension();
                 }
             } else if (!is_object($extension)) {
                 throw new InvalidArgumentException('Extensions should be a string or object.');
@@ -49,7 +40,7 @@ class TwigEnvironmentFactory implements FactoryInterface
         // Setup loader
         $loaderChain = new Twig_Loader_Chain();
 
-        foreach($options->getLoaders() as $loader) {
+        foreach((array) $config['loaders'] as $loader) {
             if (!is_string($loader) || !$serviceLocator->has($loader)) {
                 throw new InvalidArgumentException('Loaders should be a service manager alias.');
             }
@@ -57,15 +48,6 @@ class TwigEnvironmentFactory implements FactoryInterface
         }
 
         $env->setLoader($loaderChain);
-        $env->registerUndefinedFunctionCallback(function($name) use ($helperManager) {
-            if ($helperManager->has($name)) {
-                return new ViewHelper($name);
-            }
-            return null;
-        });
-
-        $env->setDefaultSuffix($options->getSuffix());
-        $env->setZfcTwigOptions($options);
 
         return $env;
     }

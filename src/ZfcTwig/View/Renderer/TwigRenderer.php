@@ -2,19 +2,27 @@
 
 namespace ZfcTwig\View\Renderer;
 
+use Twig_Environment;
+use Twig_Error_Loader;
 use Zend\View\Exception;
+use Zend\View\HelperPluginManager;
 use Zend\View\Model\ModelInterface;
 use Zend\View\Renderer\RendererInterface;
 use Zend\View\Resolver\ResolverInterface;
-use ZfcTwig\Twig\Environment;
+
 use ZfcTwig\View\Resolver\TwigResolver;
 
 class TwigRenderer implements RendererInterface
 {
     /**
-     * @var Environment
+     * @var Twig_Environment
      */
     protected $environment;
+
+    /**
+     * @var HelperPluginManager
+     */
+    protected $helperPluginManager;
 
     /**
      * @var TwigResolver
@@ -22,12 +30,50 @@ class TwigRenderer implements RendererInterface
     protected $resolver;
 
     /**
-     * @param Environment $environment
+     * @var string
      */
-    public function __construct(Environment $environment, TwigResolver $resolver)
+    protected $defaultSuffix = '.twig';
+
+    /**
+     * @param Twig_Environment $environment
+     */
+    public function __construct(Twig_Environment $environment, TwigResolver $resolver)
     {
         $this->environment = $environment;
         $this->resolver    = $resolver;
+    }
+
+    /**
+     * Gets the canonical name.
+     *
+     * @param string $name
+     * @return string
+     */
+    public function getCanonicalName($name)
+    {
+        $ext = pathinfo($name, PATHINFO_EXTENSION);
+        if (empty($ext)) {
+            $name .= $this->getDefaultSuffix();
+        }
+        return $name;
+    }
+
+    /**
+     * @param string $defaultSuffix
+     * @return TwigRenderer
+     */
+    public function setDefaultSuffix($defaultSuffix)
+    {
+        $this->defaultSuffix = $defaultSuffix;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultSuffix()
+    {
+        return $this->defaultSuffix;
     }
 
     /**
@@ -39,7 +85,14 @@ class TwigRenderer implements RendererInterface
      */
     public function canRender($name)
     {
-        return $this->environment->canLoadTemplate($name);
+        try {
+            $this->environment->loadTemplate($this->getCanonicalName($name));
+            return true;
+        } catch (Twig_Error_Loader $e) {
+            ; // intentionall left blank
+        }
+
+        return false;
     }
 
     /**
@@ -49,7 +102,7 @@ class TwigRenderer implements RendererInterface
      * phplib, etc, return the template engine object. Useful for calling
      * methods on these objects, such as for setting filters, modifiers, etc.
      *
-     * @return Environment
+     * @return Twig_Environment
      */
     public function getEngine()
     {
@@ -60,11 +113,44 @@ class TwigRenderer implements RendererInterface
      * Set the resolver used to map a template name to a resource the renderer may consume.
      *
      * @param  ResolverInterface $resolver
-     * @return RendererInterface
+     * @return TwigRenderer
      */
     public function setResolver(ResolverInterface $resolver)
     {
         $this->resolver = $resolver;
+        return $this;
+    }
+
+    /**
+     * Get plugin instance
+     *
+     * @param  string     $name Name of plugin to return
+     * @param  null|array $options Options to pass to plugin constructor (if not already instantiated)
+     * @return \Zend\View\Helper\AbstractHelper
+     */
+    public function plugin($name, array $options = null)
+    {
+        return $this->getHelperPluginManager()->get($name, $options);
+    }
+
+
+    /**
+     * @param HelperPluginManager $helperPluginManager
+     * @return TwigRenderer
+     */
+    public function setHelperPluginManager(HelperPluginManager $helperPluginManager)
+    {
+        $helperPluginManager->setRenderer($this);
+        $this->helperPluginManager = $helperPluginManager;
+        return $this;
+    }
+
+    /**
+     * @return \Zend\View\HelperPluginManager
+     */
+    public function getHelperPluginManager()
+    {
+        return $this->helperPluginManager;
     }
 
     /**
@@ -91,7 +177,7 @@ class TwigRenderer implements RendererInterface
             $vars = (array) $model->getVariables();
         }
 
-        $template = $this->resolver->resolve($nameOrModel, $this);
+        $template = $this->resolver->resolve($this->getCanonicalName($nameOrModel), $this);
         if ($template) {
             return $template->render($vars);
         }
