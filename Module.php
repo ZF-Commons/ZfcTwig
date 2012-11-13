@@ -3,6 +3,7 @@
 namespace ZfcTwig;
 
 use Zend\Mvc\MvcEvent;
+use ZfcTwig\Twig\Extension\ZfcTwig as ZfcTwigExtension;
 use ZfcTwig\View\InjectViewModelListener;
 use ZfcTwig\View\Resolver\TwigResolver;
 use ZfcTwig\View\Strategy\TwigStrategy;
@@ -32,7 +33,9 @@ class Module
         return array(
             'factories' => array(
                 'ZfcTwigEnvironment' => 'ZfcTwig\Service\TwigEnvironmentFactory',
-                'ZfcTwigExtension' => 'ZfcTwig\Service\TwigExtensionFactory',
+                'ZfcTwigExtension' => function($sm) {
+                    return new ZfcTwigExtension($sm->get('ZfcTwigViewHelperManager'));
+                },
                 'ZfcTwigDefaultLoader' => 'ZfcTwig\Service\TwigDefaultLoaderFactory',
                 'ZfcTwigRenderer' => 'ZfcTwig\Service\TwigRendererFactory',
                 'ZfcTwigResolver' => function($sm) {
