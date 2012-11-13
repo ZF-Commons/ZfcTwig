@@ -20,6 +20,17 @@ class TwigDefaultLoaderFactory implements FactoryInterface
         $templateStack = $serviceLocator->get('ViewTemplatePathStack');
         $loader        = new Twig_Loader_Filesystem($templateStack->getPaths()->toArray());
 
+        /** @var \Zend\View\Resolver\TemplateMapResolver */
+        $templateMap = $serviceLocator->get('ViewTemplateMapResolver');
+        $config      = $serviceLocator->get('Configuration');
+        $config      = $config['zfctwig'];
+
+        foreach($templateMap as $file) {
+            if ($config['suffix'] == pathinfo($file, PATHINFO_EXTENSION)) {
+                $loader->addPath(dirname($file));
+            }
+        }
+
         return $loader;
     }
 }

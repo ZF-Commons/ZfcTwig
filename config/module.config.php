@@ -27,7 +27,7 @@ return array(
          * but the templates in ZF are suffix agnostic so we must specify the extension
          * that's expected here.
          */
-        'suffix' => '.twig',
+        'suffix' => 'twig',
 
         /**
          * When enabled, the ZF2 view helpers will get pulled using a fallback renderer. This will

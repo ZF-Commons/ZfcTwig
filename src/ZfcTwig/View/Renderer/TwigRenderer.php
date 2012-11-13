@@ -53,7 +53,7 @@ class TwigRenderer implements RendererInterface
     {
         $ext = pathinfo($name, PATHINFO_EXTENSION);
         if (empty($ext)) {
-            $name .= $this->getDefaultSuffix();
+            $name .= '.' . $this->getDefaultSuffix();
         }
         return $name;
     }
