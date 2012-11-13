@@ -18,13 +18,7 @@ class TwigDefaultLoaderFactory implements FactoryInterface
     {
         /** @var $templateStack \Zend\View\Resolver\TemplatePathStack */
         $templateStack = $serviceLocator->get('ViewTemplatePathStack');
-        $loader        = new Twig_Loader_Filesystem('module/Application/view');
-
-        foreach($templateStack->getPaths() as $path) {
-            if (file_exists($path)) {
-                $loader->addPath($path);
-            }
-        }
+        $loader        = new Twig_Loader_Filesystem($templateStack->getPaths()->toArray());
 
         return $loader;
     }

@@ -14,7 +14,9 @@ return array(
         ),
 
         /**
-         * Service manager alias of any additional loaders to register with the chain.
+         * Service manager alias of any additional loaders to register with the chain. The default
+         * loader is a Twig_Loader_Filesystem with a copy of the default paths loaded
+         * in the MVC TreeStack.
          */
         'loaders' => array(
             'ZfcTwigDefaultLoader'
@@ -26,12 +28,6 @@ return array(
          * that's expected here.
          */
         'suffix' => '.twig',
-
-        /**
-         * Whether or not to copy the default TreeStack. Recommended to keep this at default
-         * value so that you automatically inherit all module view paths.
-         */
-        'copy_zf_treestack_paths' => true,
 
         /**
          * If set to true disables ZF's notion of parent/child layouts in favor of
