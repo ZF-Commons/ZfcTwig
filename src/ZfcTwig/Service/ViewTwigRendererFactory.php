@@ -6,7 +6,7 @@ use ZfcTwig\View\Renderer\TwigRenderer;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class TwigRendererFactory implements FactoryInterface
+class ViewTwigRendererFactory implements FactoryInterface
 {
     /**
      * Create service

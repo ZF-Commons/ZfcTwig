@@ -11,7 +11,7 @@ ZfcTwig is a module that integrates the [Twig](http://twig.sensiolabs.org) templ
 ## Configuration
 
 ZfcTwig has sane defaults out of the box but offers optional configuration via the `zfctwig` configuration key. For
-detailed information on all available options see the [ZfcTwig\Options\TwigEnvironment](https://github.com/ZF-Commons/ZfcTwig/tree/master/src/ZfcTwig/Options/TwigEnvironment.php)
+detailed information on all available options see the [module config file](https://github.com/ZF-Commons/ZfcTwig/tree/master/config/module.config.php)
 class.
 
 ## Documentation

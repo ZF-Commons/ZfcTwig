@@ -2,24 +2,33 @@
 return array(
     'zfctwig' => array(
         /**
-         * Options that are passed directly to the Twig_Environment.
+         * Service manager alias of the loader to use with ZfcTwig. By default, it uses
+         * the included ZfcTwigLoaderChain which includes a copy of ZF2's TemplateMap and
+         * TemplatePathStack.
          */
-        'environment' => array(),
+        'environment_loader' => 'ZfcTwigLoaderChain',
 
         /**
-         * Service manager alias or fully qualified domain name of extensions.
+         * Options that are passed directly to the Twig_Environment.
          */
-        'extensions' => array(
-            'zfctwig' => 'ZfcTwigExtension'
-        ),
+        'environment_options' => array(),
 
         /**
          * Service manager alias of any additional loaders to register with the chain. The default
-         * loader is a Twig_Loader_Filesystem with a copy of the default paths loaded
-         * in the MVC TreeStack.
+         * has the TemplateMap and TemplatePathStack registered. This setting only has an effect
+         * if the `environment_loader` key above is set to ZfcTwigLoaderChain.
          */
-        'loaders' => array(
-            'ZfcTwigDefaultLoader'
+        'loader_chain' => array(
+            'ZfcTwigLoaderTemplateMap',
+            'ZfcTwigLoaderTemplatePathStack'
+        ),
+
+        /**
+         * Service manager alias or fully qualified domain name of extensions. ZfcTwigExtension
+         * is required for this module to function!
+         */
+        'extensions' => array(
+            'zfctwig' => 'ZfcTwigExtension'
         ),
 
         /**

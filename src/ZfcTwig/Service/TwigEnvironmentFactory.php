@@ -2,11 +2,11 @@
 
 namespace ZfcTwig\Service;
 
-use InvalidArgumentException;
+use RuntimeException;
 use Twig_Environment;
-use Twig_Loader_Chain;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use ZfcTwig\Twig\Func\ViewHelper;
 
 class TwigEnvironmentFactory implements FactoryInterface
 {
@@ -20,22 +20,28 @@ class TwigEnvironmentFactory implements FactoryInterface
     {
         $config  = $serviceLocator->get('Configuration');
         $config  = $config['zfctwig'];
-        $env     = new Twig_Environment(null, (array) $config['environment']);
+        $env     = new Twig_Environment(null, (array) $config['environment_options']);
 
-        // Setup loader
-        $loaderChain = new Twig_Loader_Chain();
-
-        foreach((array) $config['loaders'] as $loader) {
-            if (!is_string($loader) || !$serviceLocator->has($loader)) {
-                throw new InvalidArgumentException('Loaders should be a service manager alias.');
-            }
-            $loaderChain->addLoader($serviceLocator->get($loader));
+        if ($config['enable_fallback_functions']) {
+            $helperPluginManager = $serviceLocator->get('ViewHelperManager');
+            $env->registerUndefinedFunctionCallback(function($name) use ($helperPluginManager) {
+                if ($helperPluginManager->has($name)) {
+                    return new ViewHelper($name);
+                }
+                return null;
+            });
         }
 
-        $env->setLoader($loaderChain);
+        if (!$serviceLocator->has($config['environment_loader'])) {
+            throw new RuntimeException(sprintf(
+                'Loader with alias "%s" could not be found!',
+                $config['loader']
+            ));
+        }
+
+        $env->setLoader($serviceLocator->get($config['environment_loader']));
 
         // Extensions are loaded later to avoid circular dependencies (for example, if an extension needs Renderer).
-
         return $env;
     }
 }

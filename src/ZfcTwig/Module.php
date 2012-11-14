@@ -8,7 +8,6 @@ use ZfcTwig\Twig\Extension\ZfcTwig as ZfcTwigExtension;
 use ZfcTwig\View\InjectViewModelListener;
 use ZfcTwig\View\Resolver\TwigResolver;
 use ZfcTwig\View\Strategy\TwigStrategy;
-use ZfcTwig\Twig\Func\ViewHelper;
 
 class Module
 {
@@ -44,16 +43,6 @@ class Module
             $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($vmListener, 'injectViewModel'), -99);
             $sharedEvents->attach('Zend\Stdlib\DispatchableInterface', MvcEvent::EVENT_DISPATCH, array($vmListener, 'injectViewModel'), -99);
         }
-
-        if ($config['enable_fallback_functions']) {
-            $helperPluginManager = $serviceManager->get('ViewHelperManager');
-            $environment->registerUndefinedFunctionCallback(function($name) use ($helperPluginManager) {
-                if ($helperPluginManager->has($name)) {
-                    return new ViewHelper($name);
-                }
-                return null;
-            });
-        }
     }
 
     public function getServiceConfig()
@@ -64,8 +53,10 @@ class Module
                 'ZfcTwigExtension' => function($sm) {
                     return new ZfcTwigExtension($sm->get('ZfcTwigRenderer'));
                 },
-                'ZfcTwigDefaultLoader' => 'ZfcTwig\Service\TwigDefaultLoaderFactory',
-                'ZfcTwigRenderer' => 'ZfcTwig\Service\TwigRendererFactory',
+                'ZfcTwigLoaderChain' => 'ZfcTwig\Service\Loader\DefaultChainFactory',
+                'ZfcTwigLoaderTemplateMap' => 'ZfcTwig\Service\Loader\TemplateMapFactory',
+                'ZfcTwigLoaderTemplatePathStack' => 'ZfcTwig\Service\Loader\TemplatePathStackFactory',
+                'ZfcTwigRenderer' => 'ZfcTwig\Service\ViewTwigRendererFactory',
                 'ZfcTwigResolver' => function($sm) {
                     return new TwigResolver($sm->get('ZfcTwigEnvironment'));
                 },

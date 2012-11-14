@@ -28,12 +28,6 @@ class RenderingStrategy implements ListenerAggregateInterface
     protected $environment;
 
     /**
-     * Suffix appended to template names.
-     * @var string
-     */
-    protected $suffix = '.twig';
-
-    /**
      * Attach one or more listeners
      *
      * Implementors may add an optional $priority argument; the EventManager
@@ -76,23 +70,6 @@ class RenderingStrategy implements ListenerAggregateInterface
     public function getEnvironment()
     {
         return $this->environment;
-    }
-
-    /**
-     * @param string $suffix
-     */
-    public function setSuffix($suffix)
-    {
-        $this->suffix = $suffix;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSuffix()
-    {
-        return $this->suffix;
     }
 
     /**
