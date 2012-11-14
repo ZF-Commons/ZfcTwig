@@ -91,6 +91,6 @@ class TemplateMap implements Twig_ExistsLoaderInterface, Twig_LoaderInterface
      */
     public function isFresh($name, $time)
     {
-        return filemtime($name) <= $time;
+        return filemtime($this->map[$name]) <= $time;
     }
 }
