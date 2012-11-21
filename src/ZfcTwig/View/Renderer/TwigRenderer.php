@@ -119,7 +119,6 @@ class TwigRenderer implements RendererInterface
      */
     public function render($nameOrModel, $values = null)
     {
-        $vars = array();
         if ($nameOrModel instanceof ModelInterface) {
             $model       = $nameOrModel;
             $nameOrModel = $model->getTemplate();
@@ -130,12 +129,12 @@ class TwigRenderer implements RendererInterface
                 ));
             }
 
-            $vars = (array) $model->getVariables();
+            $values = (array) $model->getVariables();
         }
 
         $template = $this->resolver->resolve($nameOrModel, $this);
         if ($template) {
-            return $template->render($vars);
+            return $template->render($values);
         }
         return null;
     }
