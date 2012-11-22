@@ -117,7 +117,7 @@ class TwigRenderer implements RendererInterface
      * @return string|null The script output.
      * @throws \Zend\View\Exception\DomainException
      */
-    public function render($nameOrModel, $values = null)
+    public function render($nameOrModel, $values = array())
     {
         if ($nameOrModel instanceof ModelInterface) {
             $model       = $nameOrModel;
