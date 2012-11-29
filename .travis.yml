@@ -1,0 +1,13 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+
+before_install:
+ - curl -s https://getcomposer.org/installer | php
+ - php composer.phar install
+ - cd tests
+
+script:
+ - phpunit

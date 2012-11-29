@@ -1,0 +1,10 @@
+<phpunit bootstrap="bootstrap.php">
+    
+    <testsuite name="ZfcTwig Test Suite">
+
+        <directory>./ZfcTwigTest</directory>
+
+    </testsuite>
+
+</phpunit>
+

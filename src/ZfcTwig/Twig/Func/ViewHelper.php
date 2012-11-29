@@ -3,22 +3,20 @@
 namespace ZfcTwig\Twig\Func;
 
 use Twig_Function;
+use Zend\View\Helper\HelperInterface;
 
 class ViewHelper extends Twig_Function
 {
     /**
-     * @var string
+     * @var HelperInterface
      */
-    protected $name;
+    protected $helper;
 
-    /**
-     * @param string $name
-     */
-    public function __construct($name)
+    public function __construct($helper)
     {
-        $this->name = $name;
+        $this->helper = $helper;
 
-        parent::__construct(array('is_safe' => array('html')));
+        parent::__construct(array('is_safe' => array('all')));
     }
 
     /**
@@ -26,9 +24,8 @@ class ViewHelper extends Twig_Function
      *
      * @return string The PHP code for the function
      */
-    public function compile()
+    function compile()
     {
-        $name = preg_replace('#[^a-z0-9]+#i', '', $this->name);
-        return sprintf("\$this->env->plugin('%s')->__invoke", $name);
+        return sprintf("\$this->env->getExtension('zfc-twig')->getRenderer()->plugin('%s')->__invoke", $this->helper);
     }
 }

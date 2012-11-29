@@ -22,15 +22,12 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "twig/twig": "1.10.*"
+        "twig/twig": "1.11.*"
     },
 
     "autoload": {
         "psr-0": {
-            "ZfcTwig": "src/"
-        },
-        "classmap": [
-            "./"
-        ]
+            "ZfcTwig\\": "src/"
+        }
     }
 }
