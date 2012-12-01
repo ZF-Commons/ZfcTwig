@@ -24,7 +24,7 @@ class ViewHelper extends Twig_Function
      *
      * @return string The PHP code for the function
      */
-    function compile()
+    public function compile()
     {
         return sprintf("\$this->env->getExtension('zfc-twig')->getRenderer()->plugin('%s')->__invoke", $this->helper);
     }
