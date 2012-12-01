@@ -2,6 +2,7 @@
 
 namespace ZfcTwig\View\Renderer;
 
+use RuntimeException;
 use Twig_Environment;
 use Zend\View\Exception;
 use Zend\View\HelperPluginManager;
@@ -37,6 +38,29 @@ class TwigRenderer implements RendererInterface
         $this->resolver    = $resolver;
     }
 
+    /**
+     * Magic call method that proxies to the plugin manager.
+     *
+     * @param $name
+     * @param $arguments
+     * @return mixed
+     */
+    public function __call($name, $arguments)
+    {
+        if (!$this->getHelperPluginManager()->has($name)) {
+            throw new RuntimeException('__call only supports loading plugins from the HelperPluginManager');
+        }
+
+        // Ensure the renderer is set to this instance.
+        $this->getHelperPluginManager()->setRenderer($this);
+
+        // Attempt to load the plugin.
+        try {
+            return call_user_func_array($this->getHelperPluginManager()->get($name), $arguments);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
 
     /**
      * Can the template be rendered?
@@ -75,24 +99,6 @@ class TwigRenderer implements RendererInterface
         $this->resolver = $resolver;
         return $this;
     }
-
-    /**
-     * Get plugin instance
-     *
-     * @param  string     $name Name of plugin to return
-     * @param  null|array $options Options to pass to plugin constructor (if not already instantiated)
-     * @return \Zend\View\Helper\AbstractHelper
-     */
-    public function plugin($name, array $options = null)
-    {
-        $this->getHelperPluginManager()->setRenderer($this);
-        try {
-            return $this->getHelperPluginManager()->get($name, $options);
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
-    }
-
 
     /**
      * @param HelperPluginManager $helperPluginManager
@@ -136,6 +142,7 @@ class TwigRenderer implements RendererInterface
             $values = (array) $model->getVariables();
         }
 
+        /** @var $template \Twig_Template */
         $template = $this->resolver->resolve($nameOrModel, $this);
         if ($template) {
             return $template->render($values);
