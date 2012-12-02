@@ -8,22 +8,22 @@
     {% endblock %}
 
     {% block meta %}
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% do headMeta('viewport', 'width=device-width, initial-scale=1.0') %}
     {{ headMeta() }}
     {% endblock %}
 
     {% block link %}
-    <link href="{{ basePath('/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ basePath('/css/style.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ basePath('/css/bootstrap-responsive.min.css') }}" rel="stylesheet" type="text/css">
-    <link rel="shortcut icon" href="/images/favicon.ico">
+    {% do headLink().appendStylesheet(basePath('/css/bootstrap.min.css')) %}
+    {% do headLink().appendStylesheet(basePath('/css/style.css')) %}
+    {% do headLink().appendStylesheet(basePath('/css/bootstrap-responsive.min.css')) %}
+    {% do headLink({'rel': 'shortcut icon', 'href': '/images/favicon.ico'}) %}
     {{ headLink() }}
     {% endblock %}
 
     {% block headscript %}
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-    <script src="{{ basePath('/js/html5.js') }}"></script>
+    {% do headScript().prependFile(basePath('/js/html5.js')) %}
     <![endif]-->
     {{ headScript() }}
     {% endblock %}
