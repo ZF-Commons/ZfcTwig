@@ -39,27 +39,17 @@ class TwigRenderer implements RendererInterface
     }
 
     /**
-     * Magic call method that proxies to the plugin manager.
+     * Get plugin instance, proxy to HelperPluginManager::get
      *
-     * @param $name
-     * @param $arguments
-     * @return mixed
+     * @param  string     $name Name of plugin to return
+     * @param  null|array $options Options to pass to plugin constructor (if not already instantiated)
+     * @return \Zend\View\Helper\AbstractHelper
      */
-    public function __call($name, $arguments)
+    public function plugin($name, array $options = null)
     {
-        if (!$this->getHelperPluginManager()->has($name)) {
-            throw new RuntimeException('__call only supports loading plugins from the HelperPluginManager');
-        }
-
-        // Ensure the renderer is set to this instance.
-        $this->getHelperPluginManager()->setRenderer($this);
-
-        // Attempt to load the plugin.
-        try {
-            return call_user_func_array($this->getHelperPluginManager()->get($name), $arguments);
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
+        return $this->getHelperPluginManager()
+                    ->setRenderer($this)
+                    ->get($name, $options);
     }
 
     /**

@@ -26,6 +26,6 @@ class ViewHelper extends Twig_Function
      */
     public function compile()
     {
-        return sprintf('$this->env->getExtension("zfc-twig")->getRenderer()->%s', $this->helper);
+        return sprintf('$this->env->getExtension("zfc-twig")->getRenderer()->plugin("%s")->__invoke', $this->helper);
     }
 }
