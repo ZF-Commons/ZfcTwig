@@ -22,7 +22,7 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "twig/twig": "1.11.*"
+        "twig/twig": "1.12.*"
     },
 
     "autoload": {
