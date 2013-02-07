@@ -1,70 +1,53 @@
-{{ doctype() }}
+{{ docType() }}
 <html lang="en">
-<head>
-    <meta charset="utf-8">
+    <head>
+        <meta charset="utf-8">
+        <title>
+            {% block title %}ZF2 {{ translate('Skeleton Application') }}{% endblock title %}
+        </title>
 
-    {% block title %}
-    {{ headTitle('ZF Skeleton Application') }}
-    {% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% block meta %}{% endblock meta %}
 
-    {% block meta %}
-    {% do headMeta('viewport', 'width=device-width, initial-scale=1.0') %}
-    {{ headMeta() }}
-    {% endblock %}
+        <!-- Le styles -->
+        <link href="/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+        <link href="/css/style.css" media="screen" rel="stylesheet" type="text/css">
+        <link href="/css/bootstrap-responsive.min.css" media="screen" rel="stylesheet" type="text/css">
+        <link href="/images/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+        {% block style %}{% endblock style %}
 
-    {% block link %}
-    {% do headLink().appendStylesheet(basePath('/css/bootstrap.min.css')) %}
-    {% do headLink().appendStylesheet(basePath('/css/style.css')) %}
-    {% do headLink().appendStylesheet(basePath('/css/bootstrap-responsive.min.css')) %}
-    {% do headLink({'rel': 'shortcut icon', 'href': '/images/favicon.ico'}) %}
-    {{ headLink() }}
-    {% endblock %}
-
-    {% block headscript %}
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-    {% do headScript().prependFile(basePath('/js/html5.js')) %}
-    <![endif]-->
-    {{ headScript() }}
-    {% endblock %}
-</head>
-
-<body>
-
-<div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </a>
-            <a class="brand" href="{{ url('home') }}">Skeleton Application</a>
-            <div class="nav-collapse">
-                <ul class="nav">
-                    <li class="active"><a href="{{ url('home') }}">Home</a></li>
-                </ul>
+        <!-- Scripts -->
+        <script type="text/javascript" src="/js/jquery.min.js"></script>
+        <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+        <!--[if lt IE 9]><script type="text/javascript" src="/js/html5.js"></script><![endif]-->
+        {% block script %}{% endblock script %}
+    </head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="{{ url('home') }}">{{ translate('Skeleton Application') }}</a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li class="active"><a href="{{ url('home') }}">{{ translate('Home') }}</a></li>
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="container">
-
-    {{ content | raw }}
-
-    <hr>
-
-    <footer>
-        <p>&copy; 2006 - 2012 by Zend Technologies Ltd. All rights reserved.</p>
-    </footer>
-
-</div>
-
-{% block inlinescript %}
-{{ inlineScript() }}
-{% endblock %}
-
-</body>
+        <div class="container">
+            <!-- content|raw is required for phtml fallback -->
+            {% block content %}{{ content|raw }}{% endblock content %}
+            <hr>
+            <footer>
+                <p>&copy; 2005 - 2012 by Zend Technologies Ltd. {{ translate('All rights reserved.') }}</p>
+            </footer>
+        </div> <!-- /container -->
+        {% block inline %}{% endblock inline %}
+    </body>
 </html>
