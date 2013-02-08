@@ -28,7 +28,7 @@ class TwigEnvironmentFactory implements FactoryInterface
                 if ($helperPluginManager->has($name)) {
                     return new ViewHelper($name);
                 }
-                return null;
+                return false;
             });
         }
 
