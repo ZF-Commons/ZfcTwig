@@ -2,14 +2,12 @@
 
 namespace ZfcTwig\View\Renderer;
 
-use RuntimeException;
 use Twig_Environment;
 use Zend\View\Exception;
 use Zend\View\HelperPluginManager;
 use Zend\View\Model\ModelInterface;
 use Zend\View\Renderer\RendererInterface;
 use Zend\View\Resolver\ResolverInterface;
-
 use ZfcTwig\View\Resolver\TwigResolver;
 
 class TwigRenderer implements RendererInterface
@@ -30,12 +28,42 @@ class TwigRenderer implements RendererInterface
     protected $resolver;
 
     /**
-     * @param Twig_Environment $environment
+     * @var array Cache for the plugin call
+     */
+    private $__pluginCache = array();
+
+    /**
+     * @param \Twig_Environment $environment
+     * @param TwigResolver      $resolver
      */
     public function __construct(Twig_Environment $environment, TwigResolver $resolver)
     {
         $this->environment = $environment;
         $this->resolver    = $resolver;
+    }
+
+    /**
+     * Overloading: proxy to helpers
+     *
+     * Proxies to the attached plugin manager to retrieve, return, and potentially
+     * execute helpers.
+     *
+     * * If the helper does not define __invoke, it will be returned
+     * * If the helper does define __invoke, it will be called as a functor
+     *
+     * @param  string $method
+     * @param  array $argv
+     * @return mixed
+     */
+    public function __call($method, $argv)
+    {
+        if (!isset($this->__pluginCache[$method])) {
+            $this->__pluginCache[$method] = $this->plugin($method);
+        }
+        if (is_callable($this->__pluginCache[$method])) {
+            return call_user_func_array($this->__pluginCache[$method], $argv);
+        }
+        return $this->__pluginCache[$method];
     }
 
     /**
