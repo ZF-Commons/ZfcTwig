@@ -16,11 +16,15 @@ class ViewTwigRendererFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        $config = $serviceLocator->get('Configuration');
+        $config = $config['zfctwig'];
+
         $renderer = new TwigRenderer(
             $serviceLocator->get('ZfcTwigEnvironment'),
             $serviceLocator->get('ZfcTwigResolver')
         );
 
+        $renderer->setCanRenderTrees($config['disable_zf_model']);
         $renderer->setHelperPluginManager($serviceLocator->get('ZfcTwigViewHelperManager'));
 
         return $renderer;

@@ -7,11 +7,17 @@ use Zend\View\Exception;
 use Zend\View\HelperPluginManager;
 use Zend\View\Model\ModelInterface;
 use Zend\View\Renderer\RendererInterface;
+use Zend\View\Renderer\TreeRendererInterface;
 use Zend\View\Resolver\ResolverInterface;
 use ZfcTwig\View\Resolver\TwigResolver;
 
-class TwigRenderer implements RendererInterface
+class TwigRenderer implements RendererInterface, TreeRendererInterface
 {
+    /**
+     * @var bool
+     */
+    protected $canRenderTrees = true;
+
     /**
      * @var Twig_Environment
      */
@@ -64,6 +70,26 @@ class TwigRenderer implements RendererInterface
             return call_user_func_array($this->__pluginCache[$method], $argv);
         }
         return $this->__pluginCache[$method];
+    }
+
+    /**
+     * @param boolean $canRenderTrees
+     * @return boolean
+     */
+    public function setCanRenderTrees($canRenderTrees)
+    {
+        $this->canRenderTrees = $canRenderTrees;
+        return $this;
+    }
+
+    /**
+     * Indicate whether the renderer is capable of rendering trees of view models
+     *
+     * @return bool
+     */
+    public function canRenderTrees()
+    {
+        return $this->canRenderTrees;
     }
 
     /**
@@ -147,6 +173,8 @@ class TwigRenderer implements RendererInterface
      */
     public function render($nameOrModel, $values = array())
     {
+        $model = null;
+
         if ($nameOrModel instanceof ModelInterface) {
             $model       = $nameOrModel;
             $nameOrModel = $model->getTemplate();
@@ -158,6 +186,11 @@ class TwigRenderer implements RendererInterface
             }
 
             $values = (array) $model->getVariables();
+        }
+
+        $children = $model->getChildren();
+        if ($this->canRenderTrees() && !empty($children)) {
+            $nameOrModel = $children[0]->getTemplate();
         }
 
         /** @var $template \Twig_Template */

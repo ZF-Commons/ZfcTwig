@@ -34,15 +34,6 @@ class Module
 
             $environment->addExtension($extension);
         }
-
-        if ($config['disable_zf_model']) {
-            $events       = $application->getEventManager();
-            $sharedEvents = $events->getSharedManager();
-            $vmListener   = new InjectViewModelListener($serviceManager->get('ZfcTwigRenderer'));
-
-            $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($vmListener, 'injectViewModel'), -99);
-            $sharedEvents->attach('Zend\Stdlib\DispatchableInterface', MvcEvent::EVENT_DISPATCH, array($vmListener, 'injectViewModel'), -99);
-        }
     }
 
     public function getServiceConfig()
