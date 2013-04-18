@@ -188,9 +188,12 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
             $values = (array) $model->getVariables();
         }
 
-        $children = $model->getChildren();
-        if ($this->canRenderTrees() && !empty($children)) {
-            $nameOrModel = $children[0]->getTemplate();
+        if ($model) {
+            $children = $model->getChildren();
+            if ($this->canRenderTrees() && !empty($children)) {
+                $nameOrModel = $children[0]->getTemplate();
+                $values      = (array) $children[0]->getVariables();
+            }
         }
 
         /** @var $template \Twig_Template */
@@ -201,3 +204,4 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
         return null;
     }
 }
+
