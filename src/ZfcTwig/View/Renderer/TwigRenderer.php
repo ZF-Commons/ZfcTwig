@@ -9,6 +9,7 @@ use Zend\View\Model\ModelInterface;
 use Zend\View\Renderer\RendererInterface;
 use Zend\View\Renderer\TreeRendererInterface;
 use Zend\View\Resolver\ResolverInterface;
+use Zend\View\View;
 use ZfcTwig\View\Resolver\TwigResolver;
 
 class TwigRenderer implements RendererInterface, TreeRendererInterface
@@ -34,18 +35,25 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
     protected $resolver;
 
     /**
+     * @var \Zend\View\View
+     */
+    protected $view;
+
+    /**
      * @var array Cache for the plugin call
      */
     private $__pluginCache = array();
 
     /**
-     * @param \Twig_Environment $environment
-     * @param TwigResolver      $resolver
+     * @param View $view
+     * @param Twig_Environment $environment
+     * @param TwigResolver $resolver
      */
-    public function __construct(Twig_Environment $environment, TwigResolver $resolver)
+    public function __construct(View $view, Twig_Environment $environment, TwigResolver $resolver)
     {
         $this->environment = $environment;
         $this->resolver    = $resolver;
+        $this->view        = $view;
     }
 
     /**
@@ -74,7 +82,7 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
 
     /**
      * @param boolean $canRenderTrees
-     * @return boolean
+     * @return TwigRenderer
      */
     public function setCanRenderTrees($canRenderTrees)
     {
@@ -83,9 +91,7 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
     }
 
     /**
-     * Indicate whether the renderer is capable of rendering trees of view models
-     *
-     * @return bool
+     * @return boolean
      */
     public function canRenderTrees()
     {
@@ -188,20 +194,26 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
             $values = (array) $model->getVariables();
         }
 
-        if ($model) {
-            $children = $model->getChildren();
-            if ($this->canRenderTrees() && !empty($children)) {
-                $nameOrModel = $children[0]->getTemplate();
-                $values      = (array) $children[0]->getVariables();
+        if ($model && $this->canRenderTrees() && $model->hasChildren()) {
+            if (!isset($values['content'])) {
+                $values['content'] = '';
+            }
+            foreach($model as $child) {
+                /** @var \Zend\View\Model\ViewModel $child */
+                $template = $this->resolver->resolve($child->getTemplate(), $this);
+                if ($template) {
+                    return $template->render((array) $child->getVariables());
+                }
+                $child->setOption('has_parent', true);
+                $values['content'] .= $this->view->render($child);
             }
         }
 
         /** @var $template \Twig_Template */
         $template = $this->resolver->resolve($nameOrModel, $this);
         if ($template) {
-            return $template->render($values);
+            return $template->render((array) $values);
         }
         return null;
     }
 }
-
