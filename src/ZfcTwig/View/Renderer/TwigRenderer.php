@@ -194,6 +194,10 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
             $values = (array) $model->getVariables();
         }
 
+        if (!$this->canRender($nameOrModel)) {
+            return null;
+        }
+
         if ($model && $this->canRenderTrees() && $model->hasChildren()) {
             if (!isset($values['content'])) {
                 $values['content'] = '';
@@ -211,9 +215,6 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
 
         /** @var $template \Twig_Template */
         $template = $this->resolver->resolve($nameOrModel, $this);
-        if ($template) {
-            return $template->render((array) $values);
-        }
-        return null;
+        return $template->render((array) $values);
     }
 }
