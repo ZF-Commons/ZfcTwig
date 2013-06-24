@@ -68,7 +68,7 @@ public function getServiceConfiguration()
 
 ### Using ZF2 View Helpers
 
-Using ZF2 view helpers is supported through the [ZfcTwig\Twig\Func\ViewHelper](https://github.com/ZF-Commons/ZfcTwig/tree/master/src/ZfcTwig/Twig/Func/ViewHelper.php)
+Using ZF2 view helpers is supported through the [ZfcTwig\Twig\FallbackFunction](https://github.com/ZF-Commons/ZfcTwig/tree/master/src/ZfcTwig/FallbackFunction.php)
 function.
 
 ```twig
@@ -89,3 +89,13 @@ function.
 
 Example .twig files for the skeleton application can be found in the [examples](https://github.com/ZF-Commons/ZfcTwig/tree/master/examples)
 folder.
+
+## Gotchas
+
+ZF2 does not support multiple renderers with view helpers very well. As a workaround, ZfcTwig registers its own
+`HelperPluginManager` that extends the default `Zend\View\HelperPluginManager` and adds the default as a peering manager.
+This let's ZfcTwig register its own renderer with view helpers that require it and fallback to the default manager for
+view helpers that do not require one.
+
+As a caveat, you *must* register view helpers that require a renderer with ZfcTwig. An example can be seen in
+`config/module.config.php` where the HelperConfig for the default navigation helpers is registered with ZfcTwig.
