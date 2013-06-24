@@ -1,12 +1,11 @@
 <?php
 
-namespace ZfcTwig\Service\Loader;
+namespace ZfcTwig\Twig;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use ZfcTwig\Twig\Loader\TemplatePathStack;
 
-class TemplatePathStackFactory implements FactoryInterface
+class StackLoaderFactory implements FactoryInterface
 {
     /**
      * Create service
@@ -16,14 +15,14 @@ class TemplatePathStackFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->get('Configuration');
-        $config = $config['zfctwig'];
+        /** @var \ZfcTwig\moduleOptions $options */
+        $options = $serviceLocator->get('ZfcTwig\ModuleOptions');
 
         /** @var $templateStack \Zend\View\Resolver\TemplatePathStack */
         $zfTemplateStack = $serviceLocator->get('ViewTemplatePathStack');
 
-        $templateStack = new TemplatePathStack($zfTemplateStack->getPaths()->toArray());
-        $templateStack->setDefaultSuffix($config['suffix']);
+        $templateStack = new StackLoader($zfTemplateStack->getPaths()->toArray());
+        $templateStack->setDefaultSuffix($options->getSuffix());
 
         return $templateStack;
     }

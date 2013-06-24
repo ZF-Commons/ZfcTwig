@@ -1,23 +1,22 @@
 <?php
 
-namespace ZfcTwig\Service;
+namespace ZfcTwig\View;
 
-use ZfcTwig\View\Renderer\TwigRenderer;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class ViewTwigRendererFactory implements FactoryInterface
+class TwigRendererFactory implements FactoryInterface
 {
     /**
      * Create service
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @return TwigRenderer
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->get('Configuration');
-        $config = $config['zfctwig'];
+        /** @var \ZfcTwig\moduleOptions $options */
+        $options = $serviceLocator->get('ZfcTwig\ModuleOptions');
 
         $renderer = new TwigRenderer(
             $serviceLocator->get('Zend\View\View'),
@@ -25,7 +24,7 @@ class ViewTwigRendererFactory implements FactoryInterface
             $serviceLocator->get('ZfcTwigResolver')
         );
 
-        $renderer->setCanRenderTrees($config['disable_zf_model']);
+        $renderer->setCanRenderTrees($options->getDisableZfmodel());
         $renderer->setHelperPluginManager($serviceLocator->get('ZfcTwigViewHelperManager'));
 
         return $renderer;

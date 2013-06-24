@@ -1,29 +1,30 @@
 <?php
 
-namespace ZfcTwig\Service\Loader;
+namespace ZfcTwig\Twig;
 
 use InvalidArgumentException;
 use Twig_Loader_Chain;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class DefaultChainFactory implements FactoryInterface
+class ChainLoaderFactory implements FactoryInterface
 {
     /**
      * Create service
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @throws \InvalidArgumentException
+     * @return Twig_Loader_Chain
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config  = $serviceLocator->get('Configuration');
-        $config  = $config['zfctwig'];
+        /** @var \ZfcTwig\moduleOptions $options */
+        $options = $serviceLocator->get('ZfcTwig\ModuleOptions');
 
         // Setup loader
         $chain = new Twig_Loader_Chain();
 
-        foreach((array) $config['loader_chain'] as $loader) {
+        foreach ($options->getLoaderChain() as $loader) {
             if (!is_string($loader) || !$serviceLocator->has($loader)) {
                 throw new InvalidArgumentException('Loaders should be a service manager alias.');
             }

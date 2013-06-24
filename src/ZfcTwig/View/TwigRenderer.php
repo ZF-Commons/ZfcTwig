@@ -1,6 +1,6 @@
 <?php
 
-namespace ZfcTwig\View\Renderer;
+namespace ZfcTwig\View;
 
 use Twig_Environment;
 use Zend\View\Exception;
@@ -10,7 +10,6 @@ use Zend\View\Renderer\RendererInterface;
 use Zend\View\Renderer\TreeRendererInterface;
 use Zend\View\Resolver\ResolverInterface;
 use Zend\View\View;
-use ZfcTwig\View\Resolver\TwigResolver;
 
 class TwigRenderer implements RendererInterface, TreeRendererInterface
 {

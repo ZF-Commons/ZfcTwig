@@ -48,8 +48,24 @@ return array(
          * If set to true disables ZF's notion of parent/child layouts in favor of
          * Twig's inheritance model.
          */
-        'disable_zf_model' => true
+        'disable_zf_model' => true,
+
+        /**
+         * ZfcTwig uses it's own HelperPluginManager to avoid renderer conflicts with the PhpRenderer. You must register
+         * any view helpers in this array that require access to the renderer. The defaults from ZF2 (navigation,
+         * partial, etc.) are done for you.
+         */
+        'helper_manager' => array(
+            'configs' => array(
+                'Zend\Navigation\View\HelperConfig'
+            )
+        )
     ),
+
+    /**
+     * Load services.
+     */
+    'service_manager' => include 'service.config.php',
 
     /**
      * Register the view strategy with the view manager. This is required!

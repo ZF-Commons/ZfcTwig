@@ -1,10 +1,9 @@
 <?php
 
-namespace ZfcTwig\View\Resolver;
+namespace ZfcTwig\View;
 
 use Twig_Environment;
 use Twig_Error_Loader;
-use ZfcTwig\View\Renderer\TwigRenderer;
 use Zend\View\Resolver\ResolverInterface;
 use Zend\View\Renderer\RendererInterface as Renderer;
 
