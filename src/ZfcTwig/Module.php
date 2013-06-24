@@ -52,11 +52,7 @@ class Module
                     return new TwigResolver($sm->get('ZfcTwigEnvironment'));
                 },
                 'ZfcTwigViewHelperManager' => function($sm) {
-                    // Clone the ViewHelperManager because each plugin has its own view instance.
-                    // If we don't clone it then the ViewHelpers use PhpRenderer.
-                    // This should really be changed in ZF Proper to call the event to determine which Renderer to use.
-                    //return clone $sm->get('ViewHelperManager');
-                    return clone $sm->get('ViewHelperManager');
+                    return $sm->get('ViewHelperManager');
                 },
                 'ZfcTwigViewStrategy' => function($sm) {
                     $strategy = new TwigStrategy($sm->get('ZfcTwigRenderer'));
