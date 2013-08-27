@@ -2,29 +2,29 @@
 
 return array(
     'aliases' => array(
-        'ZfcTwigExtension'               => 'ZfcTwig\Twig\ExtensionFactory',
-        'ZfcTwigLoaderChain'             => 'ZfcTwig\Twig\ChainLoaderFactory',
-        'ZfcTwigLoaderTemplateMap'       => 'ZfcTwig\Twig\MapLoaderFactory',
-        'ZfcTwigLoaderTemplatePathStack' => 'ZfcTwig\Twig\StackLoaderFactory',
-        'ZfcTwigRenderer'                => 'ZfcTwig\View\TwigRendererFactory',
-        'ZfcTwigResolver'                => 'ZfcTwig\View\TwigResolverFactory',
-        'ZfcTwigViewHelperManager'       => 'ZfcTwig\View\HelperPluginManagerFactory',
-        'ZfcTwigViewStrategy'            => 'ZfcTwig\View\TwigStrategyFactory',
+        'ZfcTwigExtension'               => 'ZfcTwig\Twig\Extension',
+        'ZfcTwigLoaderChain'             => 'ZfcTwig\Twig\ChainLoader',
+        'ZfcTwigLoaderTemplateMap'       => 'ZfcTwig\Twig\MapLoader',
+        'ZfcTwigLoaderTemplatePathStack' => 'ZfcTwig\Twig\StackLoader',
+        'ZfcTwigRenderer'                => 'ZfcTwig\View\TwigRenderer',
+        'ZfcTwigResolver'                => 'ZfcTwig\View\TwigResolver',
+        'ZfcTwigViewHelperManager'       => 'ZfcTwig\View\HelperPluginManager',
+        'ZfcTwigViewStrategy'            => 'ZfcTwig\View\TwigStrategy',
     ),
 
     'factories' => array(
-        'ZfcTwigEnvironment'                      => 'ZfcTwig\Twig\EnvironmentFactory',
+        'Twig_Environment' => 'ZfcTwig\Twig\EnvironmentFactory',
 
-        'ZfcTwig\Twig\ExtensionFactory'           => 'ZfcTwig\Twig\ExtensionFactory',
-        'ZfcTwig\Twig\ChainLoaderFactory'         => 'ZfcTwig\Twig\ChainLoaderFactory',
-        'ZfcTwig\Twig\MapLoaderFactory'           => 'ZfcTwig\Twig\MapLoaderFactory',
+        'ZfcTwig\Twig\Extension'   => 'ZfcTwig\Twig\ExtensionFactory',
+        'ZfcTwig\Twig\ChainLoader' => 'ZfcTwig\Twig\ChainLoaderFactory',
+        'ZfcTwig\Twig\MapLoader'   => 'ZfcTwig\Twig\MapLoaderFactory',
 
-        'ZfcTwig\Twig\StackLoaderFactory'         => 'ZfcTwig\Twig\StackLoaderFactory',
-        'ZfcTwig\View\TwigRendererFactory'        => 'ZfcTwig\View\TwigRendererFactory',
-        'ZfcTwig\View\TwigResolverFactory'        => 'ZfcTwig\View\TwigResolverFactory',
-        'ZfcTwig\View\HelperPluginManagerFactory' => 'ZfcTwig\View\HelperPluginManagerFactory',
-        'ZfcTwig\View\TwigStrategyFactory'        => 'ZfcTwig\View\TwigStrategyFactory',
+        'ZfcTwig\Twig\StackLoader'         => 'ZfcTwig\Twig\StackLoaderFactory',
+        'ZfcTwig\View\TwigRenderer'        => 'ZfcTwig\View\TwigRendererFactory',
+        'ZfcTwig\View\TwigResolver'        => 'ZfcTwig\View\TwigResolverFactory',
+        'ZfcTwig\View\HelperPluginManager' => 'ZfcTwig\View\HelperPluginManagerFactory',
+        'ZfcTwig\View\TwigStrategy'        => 'ZfcTwig\View\TwigStrategyFactory',
 
-        'ZfcTwig\ModuleOptions'                   => 'ZfcTwig\ModuleOptionsFactory'
+        'ZfcTwig\ModuleOptions' => 'ZfcTwig\ModuleOptionsFactory'
     )
 );

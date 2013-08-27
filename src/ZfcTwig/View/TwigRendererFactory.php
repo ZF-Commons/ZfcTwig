@@ -20,7 +20,7 @@ class TwigRendererFactory implements FactoryInterface
 
         $renderer = new TwigRenderer(
             $serviceLocator->get('Zend\View\View'),
-            $serviceLocator->get('ZfcTwigEnvironment'),
+            $serviceLocator->get('Twig_Environment'),
             $serviceLocator->get('ZfcTwigResolver')
         );
 

@@ -16,7 +16,7 @@ class Module implements
         /** @var \Zend\Mvc\MvcEvent $e*/
         $application    = $e->getApplication();
         $serviceManager = $application->getServiceManager();
-        $environment    = $serviceManager->get('ZfcTwigEnvironment');
+        $environment    = $serviceManager->get('Twig_Environment');
 
         /** @var \ZfcTwig\moduleOptions $options */
         $options = $serviceManager->get('ZfcTwig\ModuleOptions');

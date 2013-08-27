@@ -15,6 +15,6 @@ class TwigResolverFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return new TwigResolver($serviceLocator->get('ZfcTwigEnvironment'));
+        return new TwigResolver($serviceLocator->get('Twig_Environment'));
     }
 }
