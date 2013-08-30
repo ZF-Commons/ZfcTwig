@@ -3,7 +3,7 @@
 return array(
     'aliases' => array(
         'ZfcTwigExtension'               => 'ZfcTwig\Twig\Extension',
-        'ZfcTwigLoaderChain'             => 'ZfcTwig\Twig\ChainLoader',
+        'ZfcTwigLoaderChain'             => 'Twig_Loader_Chain',
         'ZfcTwigLoaderTemplateMap'       => 'ZfcTwig\Twig\MapLoader',
         'ZfcTwigLoaderTemplatePathStack' => 'ZfcTwig\Twig\StackLoader',
         'ZfcTwigRenderer'                => 'ZfcTwig\View\TwigRenderer',
@@ -13,11 +13,11 @@ return array(
     ),
 
     'factories' => array(
-        'Twig_Environment' => 'ZfcTwig\Twig\EnvironmentFactory',
+        'Twig_Environment'  => 'ZfcTwig\Twig\EnvironmentFactory',
+        'Twig_Loader_Chain' => 'ZfcTwig\Twig\ChainLoaderFactory',
 
-        'ZfcTwig\Twig\Extension'   => 'ZfcTwig\Twig\ExtensionFactory',
-        'ZfcTwig\Twig\ChainLoader' => 'ZfcTwig\Twig\ChainLoaderFactory',
-        'ZfcTwig\Twig\MapLoader'   => 'ZfcTwig\Twig\MapLoaderFactory',
+        'ZfcTwig\Twig\Extension' => 'ZfcTwig\Twig\ExtensionFactory',
+        'ZfcTwig\Twig\MapLoader' => 'ZfcTwig\Twig\MapLoaderFactory',
 
         'ZfcTwig\Twig\StackLoader'         => 'ZfcTwig\Twig\StackLoaderFactory',
         'ZfcTwig\View\TwigRenderer'        => 'ZfcTwig\View\TwigRendererFactory',

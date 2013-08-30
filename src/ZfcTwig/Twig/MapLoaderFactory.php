@@ -11,7 +11,7 @@ class MapLoaderFactory implements FactoryInterface
      * Create service
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @return MapLoader
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {

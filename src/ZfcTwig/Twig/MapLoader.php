@@ -19,7 +19,8 @@ class MapLoader implements Twig_ExistsLoaderInterface, Twig_LoaderInterface
      *
      * @param string $name
      * @param string $path
-     * @return TemplateMap
+     * @throws \Twig_Error_Loader
+     * @return MapLoader
      */
     public function add($name, $path)
     {
@@ -34,11 +35,7 @@ class MapLoader implements Twig_ExistsLoaderInterface, Twig_LoaderInterface
     }
 
     /**
-     * Check if we have the source code of a template, given its name.
-     *
-     * @param string $name The name of the template to check if we can load
-     *
-     * @return boolean If the template source code is handled by this loader or not
+     * {@inheritDoc}
      */
     public function exists($name)
     {
@@ -46,13 +43,7 @@ class MapLoader implements Twig_ExistsLoaderInterface, Twig_LoaderInterface
     }
 
     /**
-     * Gets the source code of a template, given its name.
-     *
-     * @param string $name The name of the template to load
-     *
-     * @return string The template source code
-     *
-     * @throws Twig_Error_Loader When $name is not found
+     * {@inheritDoc}
      */
     public function getSource($name)
     {
@@ -66,13 +57,7 @@ class MapLoader implements Twig_ExistsLoaderInterface, Twig_LoaderInterface
     }
 
     /**
-     * Gets the cache key to use for the cache for a given template name.
-     *
-     * @param string $name The name of the template to load
-     *
-     * @return string The cache key
-     *
-     * @throws Twig_Error_Loader When $name is not found
+     * {@inheritDoc}
      */
     public function getCacheKey($name)
     {
@@ -80,14 +65,7 @@ class MapLoader implements Twig_ExistsLoaderInterface, Twig_LoaderInterface
     }
 
     /**
-     * Returns true if the template is still fresh.
-     *
-     * @param string    $name The template name
-     * @param int       $time The last modification time of the cached template
-     *
-     * @return Boolean true if the template is fresh, false otherwise
-     *
-     * @throws Twig_Error_Loader When $name is not found
+     * {@inheritDoc}
      */
     public function isFresh($name, $time)
     {

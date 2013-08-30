@@ -33,13 +33,6 @@ class TwigResolver implements ResolverInterface
      */
     public function resolve($name, Renderer $renderer = null)
     {
-        if ($renderer instanceof TwigRenderer) {
-            try {
-                return $this->environment->loadTemplate($name);
-            } catch (Twig_Error_Loader $e) {
-                return false;
-            }
-        }
-        return false;
+        return $this->environment->loadTemplate($name);
     }
 }
