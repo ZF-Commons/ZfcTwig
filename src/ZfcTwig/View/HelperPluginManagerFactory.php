@@ -2,6 +2,7 @@
 
 namespace ZfcTwig\View;
 
+use Zend\ServiceManager\Config;
 use Zend\ServiceManager\ConfigInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -26,7 +27,7 @@ class HelperPluginManagerFactory implements FactoryInterface
         $managerConfigs = isset($managerOptions['configs']) ? $managerOptions['configs'] : array();
 
         $baseManager = $serviceLocator->get('ViewHelperManager');
-        $twigManager = new HelperPluginManager();
+        $twigManager = new HelperPluginManager(new Config($managerOptions));
         $twigManager->addPeeringServiceManager($baseManager);
 
         foreach ($managerConfigs as $configClass) {
