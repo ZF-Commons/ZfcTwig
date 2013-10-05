@@ -29,5 +29,8 @@
         "psr-0": {
             "ZfcTwig\\": "src/"
         }
+    },
+    "require-dev": {
+        "zendframework/zend-view": "*"
     }
 }
