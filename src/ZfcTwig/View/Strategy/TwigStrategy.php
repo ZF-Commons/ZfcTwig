@@ -2,7 +2,6 @@
 
 namespace ZfcTwig\View\Strategy;
 
-use Twig_Error_Loader;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\View\ViewEvent;
