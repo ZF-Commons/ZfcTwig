@@ -7,9 +7,14 @@ use Zend\Stdlib\AbstractOptions;
 class ModuleOptions extends AbstractOptions
 {
     /**
-     * @var
+     * @var string
      */
     protected $environmentLoader;
+
+    /**
+     * @var string
+     */
+    protected $environmentClass;
 
     /**
      * @var array
@@ -188,6 +193,22 @@ class ModuleOptions extends AbstractOptions
     public function getSuffix()
     {
         return $this->suffix;
+    }
+
+    /**
+     * @param string $environmentClass
+     */
+    public function setEnvironmentClass($environmentClass)
+    {
+        $this->environmentClass = $environmentClass;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEnvironmentClass()
+    {
+        return $this->environmentClass;
     }
 }
 

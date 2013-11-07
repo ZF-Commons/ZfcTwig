@@ -17,8 +17,10 @@ class EnvironmentFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /** @var \ZfcTwig\moduleOptions $options */
-        $options = $serviceLocator->get('ZfcTwig\ModuleOptions');
-        $env     = new Twig_Environment(null, $options->getEnvironmentOptions());
+        $options  = $serviceLocator->get('ZfcTwig\ModuleOptions');
+        $envClass = $options->getEnvironmentClass();
+        
+        $env = new $envClass(null, $options->getEnvironmentOptions());
 
         if ($options->getEnableFallbackFunctions()) {
             $helperPluginManager = $serviceLocator->get('ViewHelperManager');

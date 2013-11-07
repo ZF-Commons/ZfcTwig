@@ -9,6 +9,11 @@ return array(
         'environment_loader' => 'ZfcTwigLoaderChain',
 
         /**
+         * Optional class name override for instantiating the Twig Environment in the factory.
+         */
+        'environment_class' => 'Twig_Environment',
+
+        /**
          * Options that are passed directly to the Twig_Environment.
          */
         'environment_options' => array(),
