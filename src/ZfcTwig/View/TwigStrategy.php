@@ -1,11 +1,10 @@
 <?php
 
-namespace ZfcTwig\View\Strategy;
+namespace ZfcTwig\View;
 
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\View\ViewEvent;
-use ZfcTwig\View\Renderer\TwigRenderer;
 
 class TwigStrategy implements ListenerAggregateInterface
 {

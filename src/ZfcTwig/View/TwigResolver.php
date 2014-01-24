@@ -1,10 +1,9 @@
 <?php
 
-namespace ZfcTwig\View\Resolver;
+namespace ZfcTwig\View;
 
 use Twig_Environment;
 use Twig_Error_Loader;
-use ZfcTwig\View\Renderer\TwigRenderer;
 use Zend\View\Resolver\ResolverInterface;
 use Zend\View\Renderer\RendererInterface as Renderer;
 
@@ -34,13 +33,6 @@ class TwigResolver implements ResolverInterface
      */
     public function resolve($name, Renderer $renderer = null)
     {
-        if ($renderer instanceof TwigRenderer) {
-            try {
-                return $this->environment->loadTemplate($name);
-            } catch (Twig_Error_Loader $e) {
-                return false;
-            }
-        }
-        return false;
+        return $this->environment->loadTemplate($name);
     }
 }

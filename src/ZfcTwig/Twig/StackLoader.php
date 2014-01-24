@@ -1,12 +1,11 @@
 <?php
 
-namespace ZfcTwig\Twig\Loader;
+namespace ZfcTwig\Twig;
 
-use Traversable;
 use Twig_Error_Loader;
 use Twig_Loader_Filesystem;
 
-class TemplatePathStack extends Twig_Loader_Filesystem
+class StackLoader extends Twig_Loader_Filesystem
 {
     /**
      * Default suffix to use
@@ -21,7 +20,7 @@ class TemplatePathStack extends Twig_Loader_Filesystem
      * Set default file suffix
      *
      * @param  string $defaultSuffix
-     * @return TemplatePathStack
+     * @return StackLoader
      */
     public function setDefaultSuffix($defaultSuffix)
     {
