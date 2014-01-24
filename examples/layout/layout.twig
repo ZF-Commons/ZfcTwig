@@ -10,42 +10,43 @@
         {% block meta %}{% endblock meta %}
 
         <!-- Le styles -->
-        <link href="/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-        <link href="/css/style.css" media="screen" rel="stylesheet" type="text/css">
-        <link href="/css/bootstrap-responsive.min.css" media="screen" rel="stylesheet" type="text/css">
         <link href="/images/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+        <link href="/css/style.css" media="screen" rel="stylesheet" type="text/css">
+        <link href="/css/bootstrap-theme.min.css" media="screen" rel="stylesheet" type="text/css">
+        <link href="/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+        
         {% block style %}{% endblock style %}
-
+    
         <!-- Scripts -->
-        <script type="text/javascript" src="/js/jquery.min.js"></script>
         <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-        <!--[if lt IE 9]><script type="text/javascript" src="/js/html5.js"></script><![endif]-->
+        <script type="text/javascript" src="/js/jquery.min.js"></script>
+        <!--[if lt IE 9]><script type="text/javascript" src="/js/respond.min.js"></script><![endif]-->
+        <!--[if lt IE 9]><script type="text/javascript" src="/js/html5shiv.js"></script><![endif]-->
         {% block script %}{% endblock script %}
     </head>
     <body>
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
-                    </a>
-                    <a class="brand" href="{{ url('home') }}">{{ translate('Skeleton Application') }}</a>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li class="active"><a href="{{ url('home') }}">{{ translate('Home') }}</a></li>
-                        </ul>
-                    </div><!--/.nav-collapse -->
+                    </button>
+                    <a class="navbar-brand" href="{{ url('home') }}"><img src="/img/zf2-logo.png" alt="Zend Framework 2"/>&nbsp;{{ translate('Skeleton Application') }}</a>
                 </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="{{ url('home') }}">{{ translate('Home') }}</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
             </div>
-        </div>
+        </nav>
         <div class="container">
-            <!-- content|raw is required for phtml fallback -->
             {% block content %}{{ content|raw }}{% endblock content %}
             <hr>
             <footer>
-                <p>&copy; 2005 - 2012 by Zend Technologies Ltd. {{ translate('All rights reserved.') }}</p>
+                <p>&copy; 2005 - 2014 by Zend Technologies Ltd. {{ translate('All rights reserved.') }}</p>
             </footer>
         </div> <!-- /container -->
         {% block inline %}{% endblock inline %}
