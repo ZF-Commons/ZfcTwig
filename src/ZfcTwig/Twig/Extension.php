@@ -1,11 +1,11 @@
 <?php
 
-namespace ZfcTwig\Twig\Extension;
+namespace ZfcTwig\Twig;
 
 use Twig_Extension;
-use ZfcTwig\View\Renderer\TwigRenderer;
+use ZfcTwig\View\TwigRenderer;
 
-class ZfcTwig extends Twig_Extension
+class Extension extends Twig_Extension
 {
     /**
      * @var TwigRenderer
@@ -13,9 +13,7 @@ class ZfcTwig extends Twig_Extension
     protected $renderer;
 
     /**
-     * Constructor.
-     *
-     * @param TwigRenderer $helperPluginManager
+     * @param \ZfcTwig\View\TwigRenderer $renderer
      */
     public function __construct(TwigRenderer $renderer)
     {

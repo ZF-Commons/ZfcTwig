@@ -1,11 +1,11 @@
 <?php
 
-namespace ZfcTwig\Twig\Func;
+namespace ZfcTwig\Twig;
 
 use Twig_Function;
 use Zend\View\Helper\HelperInterface;
 
-class ViewHelper extends Twig_Function
+class FallbackFunction extends Twig_Function
 {
     /**
      * @var HelperInterface

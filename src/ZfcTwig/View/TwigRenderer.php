@@ -1,8 +1,9 @@
 <?php
 
-namespace ZfcTwig\View\Renderer;
+namespace ZfcTwig\View;
 
 use Twig_Environment;
+use Twig_Loader_Chain;
 use Zend\View\Exception;
 use Zend\View\HelperPluginManager;
 use Zend\View\Model\ModelInterface;
@@ -10,7 +11,6 @@ use Zend\View\Renderer\RendererInterface;
 use Zend\View\Renderer\TreeRendererInterface;
 use Zend\View\Resolver\ResolverInterface;
 use Zend\View\View;
-use ZfcTwig\View\Resolver\TwigResolver;
 
 class TwigRenderer implements RendererInterface, TreeRendererInterface
 {
@@ -46,12 +46,18 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
 
     /**
      * @param View $view
+     * @param \Twig_Loader_Chain $loader
      * @param Twig_Environment $environment
      * @param TwigResolver $resolver
      */
-    public function __construct(View $view, Twig_Environment $environment, TwigResolver $resolver)
-    {
+    public function __construct(
+        View $view,
+        Twig_Loader_Chain $loader,
+        Twig_Environment $environment,
+        TwigResolver $resolver
+    ) {
         $this->environment = $environment;
+        $this->loader      = $loader;
         $this->resolver    = $resolver;
         $this->view        = $view;
     }
@@ -121,7 +127,7 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
      */
     public function canRender($name)
     {
-        return $this->resolver->resolve($name, $this);
+        return $this->loader->exists($name);
     }
 
     /**
@@ -204,8 +210,8 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
             }
             foreach($model as $child) {
                 /** @var \Zend\View\Model\ViewModel $child */
-                $template = $this->resolver->resolve($child->getTemplate(), $this);
-                if ($template) {
+                if ($this->canRender($child->getTemplate())) {
+                    $template = $this->resolver->resolve($child->getTemplate(), $this);
                     return $template->render((array) $child->getVariables());
                 }
                 $child->setOption('has_parent', true);

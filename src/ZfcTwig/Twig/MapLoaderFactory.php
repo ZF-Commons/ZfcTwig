@@ -1,30 +1,29 @@
 <?php
 
-namespace ZfcTwig\Service\Loader;
+namespace ZfcTwig\Twig;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use ZfcTwig\Twig\Loader\TemplateMap;
 
-class TemplateMapFactory implements FactoryInterface
+class MapLoaderFactory implements FactoryInterface
 {
     /**
      * Create service
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @return MapLoader
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->get('Configuration');
-        $config = $config['zfctwig'];
+        /** @var \ZfcTwig\moduleOptions $options */
+        $options = $serviceLocator->get('ZfcTwig\ModuleOptions');
 
         /** @var \Zend\View\Resolver\TemplateMapResolver */
         $zfTemplateMap = $serviceLocator->get('ViewTemplateMapResolver');
 
-        $templateMap = new TemplateMap();
-        foreach($zfTemplateMap as $name => $path) {
-            if ($config['suffix'] == pathinfo($path, PATHINFO_EXTENSION)) {
+        $templateMap = new MapLoader();
+        foreach ($zfTemplateMap as $name => $path) {
+            if ($options->getSuffix() == pathinfo($path, PATHINFO_EXTENSION)) {
                 $templateMap->add($name, $path);
             }
         }
