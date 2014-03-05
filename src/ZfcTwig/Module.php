@@ -23,7 +23,10 @@ class Module implements
 
         // Setup extensions
         foreach ($options->getExtensions() as $extension) {
-            if (is_string($extension)) {
+	    // Allows modules to override/remove extensions.
+	    if (empty($extension)) {
+	        continue;
+	    } else if (is_string($extension)) {
                 if ($serviceManager->has($extension)) {
                     $extension = $serviceManager->get($extension);
                 } else {
