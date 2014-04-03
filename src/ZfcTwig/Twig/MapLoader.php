@@ -53,6 +53,13 @@ class MapLoader implements Twig_ExistsLoaderInterface, Twig_LoaderInterface
                 $name
             ));
         }
+        
+        if( ! file_exists($this->map[$name])) {
+            throw new Twig_Error_Loader(sprintf(
+                'Unable to open file "%s" from template map',
+                $this->map[$name]
+            ));
+        }
         return file_get_contents($this->map[$name]);
     }
 
