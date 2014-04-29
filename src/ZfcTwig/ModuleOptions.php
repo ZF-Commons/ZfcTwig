@@ -24,6 +24,11 @@ class ModuleOptions extends AbstractOptions
     /**
      * @var array
      */
+    protected $globals = array();
+
+    /**
+     * @var array
+     */
     protected $loaderChain = array();
 
     /**
@@ -209,6 +214,22 @@ class ModuleOptions extends AbstractOptions
     public function getEnvironmentClass()
     {
         return $this->environmentClass;
+    }
+
+    /**
+     * @param array $globals
+     */
+    public function setGlobals($globals)
+    {
+        $this->globals = $globals;
+    }
+
+    /**
+     * @return array
+     */
+    public function getGlobals()
+    {
+        return $this->globals;
     }
 }
 

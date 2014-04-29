@@ -19,7 +19,8 @@ class EnvironmentFactory implements FactoryInterface
         /** @var \ZfcTwig\moduleOptions $options */
         $options  = $serviceLocator->get('ZfcTwig\ModuleOptions');
         $envClass = $options->getEnvironmentClass();
-        
+
+        /** @var \Twig_Environment $env */
         $env = new $envClass(null, $options->getEnvironmentOptions());
 
         if ($options->getEnableFallbackFunctions()) {
@@ -44,6 +45,10 @@ class EnvironmentFactory implements FactoryInterface
         }
 
         $env->setLoader($serviceLocator->get($options->getEnvironmentLoader()));
+
+        foreach ($options->getGlobals() as $name => $value) {
+            $env->addGlobal($name, $value);
+        }
 
         // Extensions are loaded later to avoid circular dependencies (for example, if an extension needs Renderer).
         return $env;
