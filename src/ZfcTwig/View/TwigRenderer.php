@@ -30,6 +30,11 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
     protected $helperPluginManager;
 
     /**
+     * @var Twig_Loader_Chain
+     */
+    protected $loader;
+
+    /**
      * @var TwigResolver
      */
     protected $resolver;
