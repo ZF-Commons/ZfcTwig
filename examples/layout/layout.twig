@@ -10,18 +10,18 @@
         {% block meta %}{% endblock meta %}
 
         <!-- Le styles -->
-        <link href="/images/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
-        <link href="/css/style.css" media="screen" rel="stylesheet" type="text/css">
-        <link href="/css/bootstrap-theme.min.css" media="screen" rel="stylesheet" type="text/css">
-        <link href="/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{ basePath() }}/images/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+        <link href="{{ basePath() }}/css/style.css" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{ basePath() }}/css/bootstrap-theme.min.css" media="screen" rel="stylesheet" type="text/css">
+        <link href="{{ basePath() }}/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
         
         {% block style %}{% endblock style %}
     
         <!-- Scripts -->
-        <script type="text/javascript" src="/js/jquery.min.js"></script>
-        <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-        <!--[if lt IE 9]><script type="text/javascript" src="/js/respond.min.js"></script><![endif]-->
-        <!--[if lt IE 9]><script type="text/javascript" src="/js/html5shiv.js"></script><![endif]-->
+        <script type="text/javascript" src="{{ basePath() }}/js/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ basePath() }}/js/bootstrap.min.js"></script>
+        <!--[if lt IE 9]><script type="text/javascript" src="{{ basePath() }}/js/respond.min.js"></script><![endif]-->
+        <!--[if lt IE 9]><script type="text/javascript" src="{{ basePath() }}/js/html5shiv.js"></script><![endif]-->
         {% block script %}{% endblock script %}
     </head>
     <body>
@@ -33,7 +33,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{{ url('home') }}"><img src="/img/zf2-logo.png" alt="Zend Framework 2"/>&nbsp;{{ translate('Skeleton Application') }}</a>
+                    <a class="navbar-brand" href="{{ url('home') }}"><img src="{{ basePath() }}/img/zf2-logo.png" alt="Zend Framework 2"/>&nbsp;{{ translate('Skeleton Application') }}</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
