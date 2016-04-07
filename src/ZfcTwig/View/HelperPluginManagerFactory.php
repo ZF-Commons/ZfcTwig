@@ -28,6 +28,7 @@ class HelperPluginManagerFactory implements FactoryInterface
 
         $baseManager = $serviceLocator->get('ViewHelperManager');
         $twigManager = new HelperPluginManager(new Config($managerOptions));
+        $twigManager->setServiceLocator($serviceLocator);
         $twigManager->addPeeringServiceManager($baseManager);
 
         foreach ($managerConfigs as $configClass) {
